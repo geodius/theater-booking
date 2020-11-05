@@ -15,6 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Play {
+    public static boolean isPlayValid(Play play){
+        return play.getName() != null && play.getName().length() > 0 && play.getLength() > 0;
+    }
     @Id
     private int id;
     private String name;
