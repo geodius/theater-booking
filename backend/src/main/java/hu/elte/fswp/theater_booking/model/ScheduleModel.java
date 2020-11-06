@@ -68,9 +68,17 @@ public class ScheduleModel {
         return scheduleRepo.findById(schedule.getId());
     }
 
+    public boolean isSeatAvailable(Schedule schedule, int seat){
+        return schedule.getRoom().isSeatValid(seat) && schedule.getReservations().stream().noneMatch(r -> r.getSeat() == seat);
+    }
+
     public boolean delete(Schedule schedule) {
         if (!scheduleRepo.existsById(schedule.getId())) return false;
         scheduleRepo.delete(schedule);
         return true;
+    }
+
+    public Optional<Schedule> getById(int id) {
+        return scheduleRepo.findById(id);
     }
 }

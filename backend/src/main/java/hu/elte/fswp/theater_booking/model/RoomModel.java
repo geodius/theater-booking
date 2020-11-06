@@ -2,6 +2,7 @@ package hu.elte.fswp.theater_booking.model;
 
 import hu.elte.fswp.theater_booking.database.RoomRepo;
 import hu.elte.fswp.theater_booking.entity.Room;
+import hu.elte.fswp.theater_booking.entity.Schedule;
 import hu.elte.fswp.theater_booking.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class RoomModel {
     public Optional<Room> getByName(String name) {
         return roomRepo.findByName(name);
     }
+
+    public Optional<Room> getBySchedule(Schedule schedule) { return roomRepo.findBySchedulesContains(schedule); }
 
     public List<Room> getAll() {
         return Utility.ConvertIterableToList(roomRepo.findAll());

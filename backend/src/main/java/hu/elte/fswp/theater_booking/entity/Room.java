@@ -49,4 +49,8 @@ public class Room {
     public List<Schedule> getSchedules() {
         return schedules;
     }
+
+    public boolean isSeatValid(int seat) {
+        return seat > 0 && seat <= capacity;
+    }
 }
