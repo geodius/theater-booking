@@ -4,6 +4,7 @@ import lombok.*;
 import org.apache.logging.log4j.util.Strings;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -38,7 +39,7 @@ public class Person {
     @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
-    @ManyToMany(cascade = CascadeType.DETACH)
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(name = "role_connector", joinColumns = { @JoinColumn(name = "people_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private List<Role> roles;
 
@@ -64,6 +65,10 @@ public class Person {
 
     public boolean hasRole(Role role) {
         return roles.contains(role);
+    }
+
+    public boolean hasRole(RoleType roleType) {
+        return roles.stream().anyMatch(r -> r.getRoleType().equals(roleType));
     }
 
     public String getEmail() {
@@ -92,11 +97,17 @@ public class Person {
     }
 
     public void addRole(Role role) {
+        if (roles == null) roles = new ArrayList<>();
         if (roles.contains((role))) return;
         roles.add(role);
     }
 
     public void removeRole(Role role) {
         roles.remove(role);
+    }
+
+    public void clearRoles(){
+        if (roles == null) return;
+        roles.clear();
     }
 }

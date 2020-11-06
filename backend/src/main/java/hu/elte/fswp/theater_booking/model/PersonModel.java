@@ -1,8 +1,10 @@
 package hu.elte.fswp.theater_booking.model;
 
 import hu.elte.fswp.theater_booking.database.PersonRepo;
+import hu.elte.fswp.theater_booking.database.RoleRepo;
 import hu.elte.fswp.theater_booking.entity.Person;
 import hu.elte.fswp.theater_booking.entity.Role;
+import hu.elte.fswp.theater_booking.entity.RoleType;
 import hu.elte.fswp.theater_booking.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,18 +23,22 @@ public class PersonModel {
     }
 
     private final PersonRepo personRepo;
+    private final RoleRepo roleRepo;
 
     @Autowired
-    public PersonModel(PersonRepo personRepo) {
+    public PersonModel(PersonRepo personRepo, RoleRepo roleRepo) {
         assert(instance == null);
         instance = this;
         this.personRepo = personRepo;
+        this.roleRepo = roleRepo;
     }
 
     public Optional<Person> create(Person person) {
         if (!Person.isPersonValid(person)) return Optional.empty();
         if (personRepo.findById(person.getId()).isPresent()) return Optional.empty();
         if (personRepo.findByEmail(person.getEmail()).isPresent()) return Optional.empty();
+        person.clearRoles();
+        roleRepo.findByRoleType(RoleType.USER).ifPresent(person::addRole);
         personRepo.save(person);
         return personRepo.findByEmail(person.getEmail());
     }
@@ -79,5 +85,9 @@ public class PersonModel {
         if (!personRepo.existsById(person.getId())) return false;
         personRepo.delete(person);
         return true;
+    }
+
+    public Optional<Person> getById(int id) {
+        return personRepo.findById(id);
     }
 }

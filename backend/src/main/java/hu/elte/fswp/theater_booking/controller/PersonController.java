@@ -2,7 +2,9 @@ package hu.elte.fswp.theater_booking.controller;
 
 import hu.elte.fswp.theater_booking.entity.Person;
 import hu.elte.fswp.theater_booking.entity.Role;
+import hu.elte.fswp.theater_booking.entity.RoleType;
 import hu.elte.fswp.theater_booking.model.PersonModel;
+import hu.elte.fswp.theater_booking.security.TheaterBookingUserDetailsService;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,12 +53,18 @@ public class PersonController {
 
     @PatchMapping("/person/modify")
     public ResponseEntity<Person> modify(@RequestBody Person person) {
+        Person currentPerson = TheaterBookingUserDetailsService.getCurrentUser();
+        if (!currentPerson.hasRole(RoleType.ADMIN) && currentPerson.getId() != person.getId()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         Optional<Person> result = PersonModel.getInstance().modify(person);
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_MODIFIED).build());
     }
 
     @DeleteMapping("/person/delete")
     public ResponseEntity<Boolean> delete(@RequestBody Person person) {
+        Person currentPerson = TheaterBookingUserDetailsService.getCurrentUser();
+        if (!currentPerson.hasRole(RoleType.ADMIN)) person = currentPerson;
         boolean result = PersonModel.getInstance().delete(person);
         return result ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
