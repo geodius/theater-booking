@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class ScheduleModel {
-    public static ScheduleModel instance;
+    private static ScheduleModel instance;
 
     public static ScheduleModel getInstance() {
         assert(instance != null);

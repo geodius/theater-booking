@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class PlayModel {
-    public static PlayModel instance;
+    private static PlayModel instance;
 
     public static PlayModel getInstance() {
         assert(instance != null);

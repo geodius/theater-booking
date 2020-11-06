@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Service
 public class PersonModel {
-    public static PersonModel instance;
+    private static PersonModel instance;
 
     public static PersonModel getInstance() {
         assert(instance != null);

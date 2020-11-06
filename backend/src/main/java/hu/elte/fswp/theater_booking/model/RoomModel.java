@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class RoomModel {
-    public static RoomModel instance;
+    private static RoomModel instance;
 
     public static RoomModel getInstance() {
         assert(instance != null);
