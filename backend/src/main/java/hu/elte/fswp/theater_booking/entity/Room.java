@@ -15,6 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Room {
+    public static boolean isRoomValid(Room room){
+        return room.getName() != null && room.getName().length() > 0;
+    }
     @Id
     private int id;
     private String name;
