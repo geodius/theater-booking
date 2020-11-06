@@ -16,6 +16,9 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Schedule {
+    public static boolean isScheduleValid(Schedule schedule){
+        return schedule.start != null && schedule.room != null && schedule.play != null;
+    }
     @Id
     private int id;
     private Time start;
