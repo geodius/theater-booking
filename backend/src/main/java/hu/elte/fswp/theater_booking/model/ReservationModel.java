@@ -75,7 +75,10 @@ public class ReservationModel {
     }
 
     public boolean delete(Reservation reservation) {
-        if (!reservationRepo.existsById(reservation.getId())) return false;
+        Optional<Reservation> temp = reservationRepo.findById(reservation.getId());
+        if (temp.isEmpty()) return false;
+        Reservation dbReservation = temp.get();
+        if (!dbReservation.getPerson().equals(reservation.getPerson())) return false;
         reservationRepo.delete(reservation);
         return true;
     }

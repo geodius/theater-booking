@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Role {
+public class Role implements GrantedAuthority {
     @Id
     private int id;
 
@@ -35,5 +36,10 @@ public class Role {
 
     public List<Person> getPeople() {
         return people;
+    }
+
+    @Override
+    public String getAuthority() {
+        return roleType.name();
     }
 }

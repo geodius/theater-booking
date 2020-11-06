@@ -42,7 +42,7 @@ public class RoomController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/room/getByCapacityLessThan")
+    @GetMapping("/room/getByCapacityBetween")
     public ResponseEntity<List<Room>> getByCapacityBetween(@RequestBody Pair<Integer, Integer> intPair){
         List<Room> results = RoomModel.getInstance().getByCapacityBetween(intPair.getFirst(), intPair.getSecond());
         return ResponseEntity.ok(results);
