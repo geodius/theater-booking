@@ -2,6 +2,7 @@ package hu.elte.fswp.theater_booking.model;
 
 import hu.elte.fswp.theater_booking.database.PersonRepo;
 import hu.elte.fswp.theater_booking.entity.Person;
+import hu.elte.fswp.theater_booking.entity.Role;
 import hu.elte.fswp.theater_booking.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,25 @@ public class PersonModel {
 
     public Optional<Person> getByEmail(String email) {
         return personRepo.findByEmail(email);
+    }
+
+    public Optional<Person> modifyRole(Person person, Role role, boolean mode){
+        Optional<Person> temp = personRepo.findById(person.getId());
+        if ( temp.isEmpty() ) {
+            return Optional.empty();
+        }
+        Person dbPerson = temp.get();
+        if ( !dbPerson.equals(person) || !Boolean.logicalXor( dbPerson.hasRole(role), mode ) ) {
+            return Optional.empty();
+        }
+        if (mode){
+            dbPerson.addRole(role);
+        }
+        else {
+            dbPerson.removeRole(role);
+        }
+        personRepo.save(dbPerson);
+        return Optional.of(dbPerson);
     }
 
     public List<Person> getByName(String name) {
