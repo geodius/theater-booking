@@ -1,9 +1,11 @@
 package hu.elte.fswp.theater_booking.entity;
 
 import lombok.*;
+import org.apache.logging.log4j.util.Strings;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Data
 @Entity
@@ -12,6 +14,21 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Person {
+    private static Pattern emailPattern = Pattern.compile("^([A-z0-9\\.\\-\\_]+)@([a-z0-9\\.\\-\\_]+)\\.([a-z]{2,})$");
+    private static Pattern namePattern = Pattern.compile("^[\\p{Lu}][\\p{Ll}]+( [\\p{Lu}][\\p{Ll}]+)+$");
+
+    public static boolean isPersonValid(Person person){
+        return isNameValid(person.name) && isEmailValid(person.email) && isPasswordValid(person.password);
+    }
+
+    public static boolean isEmailValid(String email) {
+        return emailPattern.matcher(email).matches();
+    }
+
+    public static boolean isNameValid(String name) { return namePattern.matcher(name).matches();}
+
+    public static boolean isPasswordValid(String password) { return Strings.isNotBlank(password);}
+
     @Id
     private int id;
     private String name;
@@ -51,6 +68,14 @@ public class Person {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void addReservation(Reservation reservation) {
