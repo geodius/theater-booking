@@ -42,6 +42,18 @@ public class RoomModel {
         return Utility.ConvertIterableToList(roomRepo.findAll());
     }
 
+    public List<Room> getByCapacityLessThan(int limit) {
+        return roomRepo.findAllByCapacityLessThan(limit);
+    }
+
+    public List<Room> getByCapacityGreaterThan(int limit) {
+        return roomRepo.findAllByCapacityGreaterThan(limit);
+    }
+
+    public List<Room> getByCapacityBetween(int lhs, int rhs) {
+        return roomRepo.findAllByCapacityBetween(lhs, rhs);
+    }
+
     public Optional<Room> modify(Room room) {
         if (!Room.isRoomValid(room)) return Optional.empty();
         if (roomRepo.findById(room.getId()).isEmpty()) return Optional.empty();
