@@ -21,3 +21,12 @@
 - Látogató: Látja az elérhető darabokat, jegyet/helyet tud foglalni
 - Felhasználó: Akinek van aktív foglalása, aktuális foglalásán módosítani tud, vagy visszavonhatja azt
 - Adminisztrátor: Lekérheti a foglalások listáját, módosíthatja a foglalásokat, hozzáadhat/eltávolíthat színdarabokat, lezárhat termeket vagy üléseket
+## Alkalmazott fejlesztői környezetek:
+- MySQL
+- Apace Maven
+- Java
+- Spring Framework
+## Adatbázis felépítése és táblák kapcsolata:
+![UML table](https://github.com/geodius/theater-booking/blob/main/UML2.png)
+## Szerepkörök és hozzájuk tartozó jogosultságok táblája:
+![Roles and privlieges](https://github.com/geodius/theater-booking/blob/main/UserRoles.png)
