@@ -1,0 +1,17 @@
+#calendar {
+  width: 60%;
+  margin: 0 auto;
+}
+#calendar nav {
+  border-bottom: 2px solid #ff0000;
+}
+#calendar nav a {
+  display: inline-block;
+  margin-left: 20px;
+  padding: 10px;
+  background: #000;
+  border-radius: 10px 10px 0 0;
+}
+#calendar nav a:first-child {
+  margin-left: 0;
+}
