@@ -39,6 +39,12 @@ public class PersonController {
         return ResponseEntity.ok(results);
     }
 
+    @GetMapping("/person/getCurrent")
+    public ResponseEntity<Person> getCurrent(){
+        Person currentPerson = TheaterBookingUserDetailsService.getCurrentUser();
+        return ResponseEntity.ok(currentPerson);
+    }
+
     @PatchMapping("/person/assignRole")
     public ResponseEntity<Person> assignRole(@RequestBody Pair<Person, Role> pair){
         Optional<Person> result = PersonModel.getInstance().modifyRole(pair.getFirst(), pair.getSecond(), true);

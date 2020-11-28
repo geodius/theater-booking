@@ -1,12 +1,16 @@
 package hu.elte.fswp.theater_booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -15,13 +19,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Schedule {
     public static boolean isScheduleValid(Schedule schedule){
         return schedule.start != null && schedule.room != null && schedule.play != null;
     }
     @Id
     private int id;
-    private Time start;
+    private LocalDateTime start;
 
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
@@ -38,11 +43,11 @@ public class Schedule {
         return id;
     }
 
-    public Time getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 
-    public void setStart(Time start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 

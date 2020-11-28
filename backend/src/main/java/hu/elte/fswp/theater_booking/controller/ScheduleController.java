@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,19 +41,19 @@ public class ScheduleController {
     }
 
     @GetMapping("/schedule/getBefore")
-    public ResponseEntity<List<Schedule>> getBefore(@RequestBody Time limit){
+    public ResponseEntity<List<Schedule>> getBefore(@RequestBody LocalDateTime limit){
         List<Schedule> results = ScheduleModel.getInstance().getBefore(limit);
         return ResponseEntity.ok(results);
     }
 
     @GetMapping("/schedule/getAfter")
-    public ResponseEntity<List<Schedule>> getAfter(@RequestBody Time limit){
+    public ResponseEntity<List<Schedule>> getAfter(@RequestBody LocalDateTime limit){
         List<Schedule> results = ScheduleModel.getInstance().getAfter(limit);
         return ResponseEntity.ok(results);
     }
 
     @GetMapping("/schedule/getBetween")
-    public ResponseEntity<List<Schedule>> getBetween(@RequestBody Pair<Time, Time> timePair) {
+    public ResponseEntity<List<Schedule>> getBetween(@RequestBody Pair<LocalDateTime, LocalDateTime> timePair) {
         List<Schedule> results = ScheduleModel.getInstance().getBetween(timePair.getFirst(), timePair.getSecond());
         return ResponseEntity.ok(results);
     }
