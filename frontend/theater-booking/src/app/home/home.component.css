@@ -1,17 +1,8 @@
-#calendar {
-  width: 60%;
-  margin: 0 auto;
+#home-calendar {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 30px;
 }
-#calendar nav {
-  border-bottom: 2px solid #ff0000;
-}
-#calendar nav a {
-  display: inline-block;
-  margin-left: 20px;
-  padding: 10px;
-  background: #000;
-  border-radius: 10px 10px 0 0;
-}
-#calendar nav a:first-child {
-  margin-left: 0;
+#home-calendar nav {
+  margin-bottom: 20px;
 }

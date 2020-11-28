@@ -1,1 +1,22 @@
-<p>calendar-schedule works!</p>
+
+<section id="schedule">
+  <table>
+    <tr *ngFor="let play of plays">
+      <td title="{{play.logline}}">{{play.name}}</td>
+      <td>
+        <ng-container *ngFor="let schedule of play.schedules">
+          <button *ngIf="isToday(schedule.start)">
+            {{padTime(schedule.start.getHours())}}:
+            {{padTime(schedule.start.getMinutes())}}
+            <span>
+                -
+                {{padTime(getAsDate(schedule.start.getTime() + play.length * 1000 * 60).getHours())}}:
+                {{padTime(getAsDate(schedule.start.getTime() + play.length * 1000 * 60).getMinutes())}}
+            </span>
+          </button>
+        </ng-container>
+      </td>
+    </tr>
+  </table>
+</section>
+

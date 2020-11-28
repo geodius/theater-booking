@@ -1,0 +1,42 @@
+#schedule {
+
+}
+
+#schedule table {
+  color: #c4c4c4;
+  font-size: 15px;
+  background: #313131;
+  width: 100%;
+}
+
+#schedule table tr td {
+  padding: 5px 10px;
+  border-bottom: 1px solid #c4c4c4;
+}
+
+#schedule table tr:last-child td {
+  border-bottom: 0;
+}
+
+#schedule tr td:first-child {
+  font-variant: small-caps;
+  width: 30%;
+}
+
+#schedule tr td button{
+  padding: 0 10px;
+  margin-right: 20px;
+  border-radius: 10px;
+  color: #c4c4c4;
+  background: rgba(255, 255, 255, 0);
+  transition: background 250ms;
+}
+
+#schedule tr td button:hover{
+  text-decoration: underline;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+#schedule tr td button:last-child {
+  margin: 0;
+}

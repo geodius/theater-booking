@@ -7,6 +7,14 @@ import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CalendarPlayComponent } from './calendar-play/calendar-play.component';
 import { CalendarScheduleComponent } from './calendar-schedule/calendar-schedule.component';
+import { LoginComponent } from './login/login.component';
+import {HttpClientModule} from '@angular/common/http';
+import {FormsModule} from '@angular/forms';
+import { TicketsComponent } from './tickets/tickets.component';
+import { CalendarTicketsComponent } from './calendar-tickets/calendar-tickets.component';
+import { ScheduleComponent } from './schedule/schedule.component';
+import { PlaysComponent } from './plays/plays.component';
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -14,11 +22,19 @@ import { CalendarScheduleComponent } from './calendar-schedule/calendar-schedule
     NavbarComponent,
     HomeComponent,
     CalendarPlayComponent,
-    CalendarScheduleComponent
+    CalendarScheduleComponent,
+    LoginComponent,
+    TicketsComponent,
+    CalendarTicketsComponent,
+    ScheduleComponent,
+    PlaysComponent
   ],
   imports: [
     BrowserModule,
-    NgbModule
+    CommonModule,
+    NgbModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

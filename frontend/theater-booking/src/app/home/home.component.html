@@ -1,4 +1,4 @@
-<ngb-carousel *ngIf="images">
+<ngb-carousel class="carousel" *ngIf="images">
   <ng-template ngbSlide>
     <div class="picsum-img-wrapper">
       <img [src]="images[0]" alt="Random first slide">
@@ -27,10 +27,11 @@
     </div>
   </ng-template>
 </ngb-carousel>
-<section id="calendar">
+
+<section id="home-calendar" class="calendar">
   <nav>
-    <a href="#play" (click)="calendarPage = 'calendar-play'">Előadások</a>
-    <a href="#schedule" (click)="calendarPage = 'calendar-schedule'">Műsorlista</a>
+    <a href="#play" [class.active]="calendarPage == 'calendar-play'" (click)="calendarPage = 'calendar-play'">Előadások</a>
+    <a href="#schedule" [class.active]="calendarPage == 'calendar-schedule'" (click)="calendarPage = 'calendar-schedule'">Mai műsor</a>
   </nav>
   <div class="calendar-play" *ngIf="this.calendarPage === 'calendar-play'">
     <app-calendar-play></app-calendar-play>
@@ -39,3 +40,14 @@
     <app-calendar-schedule></app-calendar-schedule>
   </div>
 </section>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>

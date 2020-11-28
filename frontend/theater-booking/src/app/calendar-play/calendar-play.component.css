@@ -1,0 +1,60 @@
+#calendar-days {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: stretch;
+  justify-content: space-around;
+}
+#calendar-days .day-box {
+  flex: 1 1 100px;
+  width: 14.28%;
+  text-align: center;
+  text-transform: uppercase;
+  border: 1px solid #5a5a5a;
+  background: rgba(255, 255, 255, 0.05);
+  color: #c4c4c4;
+  cursor: pointer;
+}
+#calendar-days .day-box:hover {
+  color: #dc3545;
+}
+#calendar-days .day-box.active {
+  background: #5a5a5a;
+}
+#calendar-days .day-box.active:hover {
+  color: #c4c4c4;
+}
+#calendar-days .day-box::after {
+  clear: both;
+}
+#calendar-days .day-box .month {
+
+}
+#calendar-days .day-box .day {
+  font-size: 40px;
+}
+#calendar-days .day-box .day-name {
+
+}
+
+#calendar-content {
+  margin-top: 10px;
+}
+#calendar-content .play {
+  font-size: 15px;
+  line-height: 25px;
+  color: #c4c4c4;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid #5a5a5a;
+  transition: background 250ms;
+}
+#calendar-content .play:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+#calendar-content .play:last-child {
+  border-bottom: 0;
+}
+#calendar-content .play span {
+  font-size: 25px;
+  margin-right: 10px;
+}

@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'theater-booking';
+  currentPage = '#home';
+
+  pageChanged(e: string): void {
+    this.currentPage = e;
+  }
 }

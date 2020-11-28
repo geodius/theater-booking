@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+  @Output() navbarSelectionChanged = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit(): void {
@@ -13,11 +15,11 @@ export class NavbarComponent implements OnInit {
 
     // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < links.length; ++i) {
-      links[i].addEventListener('click', this.navLinkClicked);
+      links[i].addEventListener('click', (e: Event) => this.navLinkClicked(e, this));
     }
   }
 
-  navLinkClicked(e: Event): void {
+  navLinkClicked(e: Event, context: any): void {
     // @ts-ignore
     let targetPage = e.target.hash;
     if (targetPage === undefined) {
@@ -25,6 +27,6 @@ export class NavbarComponent implements OnInit {
       const href = e.target.parentElement.href;
       targetPage = href.substr(href.lastIndexOf('/') + 1);
     }
-    console.log(targetPage);
+    context.navbarSelectionChanged.emit(targetPage);
   }
 }
