@@ -3,6 +3,7 @@ package hu.elte.fswp.theater_booking.controller;
 
 import hu.elte.fswp.theater_booking.entity.Play;
 import hu.elte.fswp.theater_booking.model.PlayModel;
+import org.hibernate.collection.internal.PersistentBag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
