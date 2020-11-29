@@ -1,0 +1,22 @@
+
+<section id="schedule">
+  <table *ngFor="let day of days">
+    <caption>{{day.date.getFullYear()}}.{{(day.date.getMonth() + '').padStart(2, '0')}}.{{(day.date.getDate() + '').padStart(2, '0')}}</caption>
+    <tr *ngFor="let play of day.plays">
+      <td title="{{play.logline}}">{{play.name}}</td>
+      <td>
+        <ng-container *ngFor="let schedule of play.schedules">
+          <button *ngIf="isSameDay(day.date, schedule.start)" [class.finished]="isStarted(schedule.start)">
+            {{padTime(schedule.start.getHours())}}:
+            {{padTime(schedule.start.getMinutes())}}
+            <span>
+                -
+              {{padTime(getAsDate(schedule.start.getTime() + play.length * 1000 * 60).getHours())}}:
+              {{padTime(getAsDate(schedule.start.getTime() + play.length * 1000 * 60).getMinutes())}}
+            </span>
+          </button>
+        </ng-container>
+      </td>
+    </tr>
+  </table>
+</section>
