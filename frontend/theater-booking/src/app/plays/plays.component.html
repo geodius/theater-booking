@@ -1,0 +1,18 @@
+<section id="plays">
+  <h1>Előadások listája</h1>
+  <article *ngFor="let play of plays">
+    <h3>{{play.name}}</h3>
+    <span>Játékidő: {{play.length}} perc</span>
+    <p>{{play.logline}}</p>
+    <div>
+      A héten ekkor játszák:
+      <ul>
+        <ng-container *ngFor="let schedule of play.schedules">
+          <li *ngIf="isOnThisWeek(schedule.start)">
+            {{getDisplayDate(schedule.start)}}
+          </li>
+        </ng-container>
+      </ul>
+    </div>
+  </article>
+</section>
