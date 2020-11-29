@@ -1,5 +1,5 @@
-
 <section id="schedule">
+  <h1>Műsor</h1>
   <table *ngFor="let day of days">
     <caption>{{day.date.getFullYear()}}.{{(day.date.getMonth() + '').padStart(2, '0')}}.{{(day.date.getDate() + '').padStart(2, '0')}}</caption>
     <tr *ngFor="let play of day.plays">

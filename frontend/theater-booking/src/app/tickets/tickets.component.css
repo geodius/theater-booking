@@ -1,0 +1,21 @@
+th {
+  font-size: 30px;
+}
+h3 {
+  font-size: 20px;
+}
+table {
+  background: #313131;
+}
+table tr td,
+table tr th {
+  padding: 20px;
+}
+table tr td:last-child {
+  font-size: 20px;
+}
+#ticket {
+  width: 30%;
+  margin: 0 auto;
+  color: #c4c4c4;
+}

@@ -11,7 +11,6 @@ import { LoginComponent } from './login/login.component';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { TicketsComponent } from './tickets/tickets.component';
-import { CalendarTicketsComponent } from './calendar-tickets/calendar-tickets.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { PlaysComponent } from './plays/plays.component';
 import {CommonModule} from '@angular/common';
@@ -25,7 +24,6 @@ import {CommonModule} from '@angular/common';
     CalendarScheduleComponent,
     LoginComponent,
     TicketsComponent,
-    CalendarTicketsComponent,
     ScheduleComponent,
     PlaysComponent
   ],
