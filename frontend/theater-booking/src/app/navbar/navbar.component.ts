@@ -15,12 +15,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const links = document.getElementById('navbar').getElementsByTagName('a') as HTMLCollectionOf<HTMLAnchorElement>;
-
-    // tslint:disable-next-line:prefer-for-of
-    for (let i = 0; i < links.length; ++i) {
-      links[i].addEventListener('click', (e: Event) => this.navLinkClicked(e, this));
-    }
   }
 
   navLinkClicked(e: Event, context: any): void {

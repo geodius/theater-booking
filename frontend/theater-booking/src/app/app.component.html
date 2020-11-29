@@ -1,7 +1,7 @@
-<app-navbar (navbarSelectionChanged)="pageChanged($event)"></app-navbar>
+<app-navbar (navbarSelectionChanged)="changePage($event)"></app-navbar>
 
 <app-home *ngIf="currentPage == '#home'"></app-home>
-<app-login *ngIf="currentPage == '#login'"></app-login>
+<app-login *ngIf="currentPage == '#login'" (loggedIn)="loggedIn()"></app-login>
 <app-tickets *ngIf="currentPage == '#tickets'"></app-tickets>
 <app-plays *ngIf="currentPage == '#plays'"></app-plays>
 <app-schedule *ngIf="currentPage == '#schedule'"></app-schedule>

@@ -13,7 +13,12 @@ export class AppComponent implements OnInit {
     this.currentPage = document.location.hash;
   }
 
-  pageChanged(e: string): void {
+  changePage(e: string): void {
+    document.location.hash = e;
     this.currentPage = e;
+  }
+
+  loggedIn(): void {
+    this.changePage('#home');
   }
 }
