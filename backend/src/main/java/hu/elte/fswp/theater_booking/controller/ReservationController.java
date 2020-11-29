@@ -1,7 +1,7 @@
 package hu.elte.fswp.theater_booking.controller;
 
 import hu.elte.fswp.theater_booking.entity.*;
-import hu.elte.fswp.theater_booking.model.ReservationModel;
+import hu.elte.fswp.theater_booking.model.*;
 import hu.elte.fswp.theater_booking.security.TheaterBookingUserDetailsService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,27 +26,39 @@ public class ReservationController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/reservation/getByPlay")
-    public ResponseEntity<List<Reservation>> getByPlay(@RequestBody Play play){
-        List<Reservation> results = ReservationModel.getInstance().getByPlay(play);
+    @GetMapping("/reservation/getByPlay/{playId}")
+    public ResponseEntity<List<Reservation>> getByPlay(@PathVariable int playId){
+        Optional<Play> play = PlayModel.getInstance().getById(playId);
+        if (play.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<Reservation> results = ReservationModel.getInstance().getByPlay(play.get());
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/reservation/getByRoom")
-    public ResponseEntity<List<Reservation>> getByRoom(@RequestBody Room room){
-        List<Reservation> results = ReservationModel.getInstance().getByRoom(room);
+    @GetMapping("/reservation/getByRoom/{roomId}")
+    public ResponseEntity<List<Reservation>> getByRoom(@PathVariable int roomId){
+        Optional<Room> room = RoomModel.getInstance().getById(roomId);
+        if (room.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<Reservation> results = ReservationModel.getInstance().getByRoom(room.get());
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/reservation/getBySchedule")
-    public ResponseEntity<List<Reservation>> getBySchedule(@RequestBody Schedule schedule){
-        List<Reservation> results = ReservationModel.getInstance().getBySchedule(schedule);
+    @GetMapping("/reservation/getBySchedule/{scheduleId}")
+    public ResponseEntity<List<Reservation>> getBySchedule(@PathVariable int scheduleId){
+        Optional<Schedule> schedule = ScheduleModel.getInstance().getById(scheduleId);
+        if (schedule.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<Reservation> results = ReservationModel.getInstance().getBySchedule(schedule.get());
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/reservation/getByPerson")
-    public ResponseEntity<List<Reservation>> getByPerson(@RequestBody Person person){
-        List<Reservation> results = ReservationModel.getInstance().getByPerson(person);
+    @GetMapping("/reservation/getByPerson/{personId}")
+    public ResponseEntity<List<Reservation>> getByPerson(@PathVariable int personId){
+        Optional<Person> person = PersonModel.getInstance().getById(personId);
+        if (person.isEmpty()) return ResponseEntity.notFound().build();
+
+        List<Reservation> results = ReservationModel.getInstance().getByPerson(person.get());
         return ResponseEntity.ok(results);
     }
 

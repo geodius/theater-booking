@@ -34,6 +34,11 @@ public class PlayModel {
         return playRepo.findFirstByNameOrderByIdDesc(play.getName());
     }
 
+
+    public Optional<Play> getById(int playId) {
+        return playRepo.findById(playId);
+    }
+
     public List<Play> getByName(String name) {
         return playRepo.findAllByName(name);
     }

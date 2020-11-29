@@ -3,6 +3,8 @@ package hu.elte.fswp.theater_booking.controller;
 import hu.elte.fswp.theater_booking.entity.Play;
 import hu.elte.fswp.theater_booking.entity.Room;
 import hu.elte.fswp.theater_booking.entity.Schedule;
+import hu.elte.fswp.theater_booking.model.PlayModel;
+import hu.elte.fswp.theater_booking.model.RoomModel;
 import hu.elte.fswp.theater_booking.model.ScheduleModel;
 import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,33 +32,41 @@ public class ScheduleController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/schedule/getByPlay")
-    public ResponseEntity<List<Schedule>> getByPlay(@RequestBody Play play){
-        List<Schedule> results = ScheduleModel.getInstance().getByPlay(play);
+    @GetMapping("/schedule/getByPlay/{playId}")
+    public ResponseEntity<List<Schedule>> getByPlay(@PathVariable int playId){
+        Optional<Play> play = PlayModel.getInstance().getById(playId);
+        if (play.isEmpty()) return ResponseEntity.notFound().build();
+        List<Schedule> results = ScheduleModel.getInstance().getByPlay(play.get());
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/schedule/getByRoom")
-    public ResponseEntity<List<Schedule>> getByRoom(@RequestBody Room room){
-        List<Schedule> results = ScheduleModel.getInstance().getByRoom(room);
+    @GetMapping("/schedule/getByRoom/{roomId}")
+    public ResponseEntity<List<Schedule>> getByRoom(@PathVariable int roomId){
+        Optional<Room> room = RoomModel.getInstance().getById(roomId);
+        if (room.isEmpty()) return ResponseEntity.notFound().build();
+        List<Schedule> results = ScheduleModel.getInstance().getByRoom(room.get());
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/schedule/getBefore")
-    public ResponseEntity<List<Schedule>> getBefore(@RequestBody LocalDateTime limit){
+    @GetMapping("/schedule/getBefore/{epoch}")
+    public ResponseEntity<List<Schedule>> getBefore(@PathVariable long epoch){
+        LocalDateTime limit = LocalDateTime.ofEpochSecond(epoch, 0, ZoneOffset.MIN);
         List<Schedule> results = ScheduleModel.getInstance().getBefore(limit);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/schedule/getAfter")
-    public ResponseEntity<List<Schedule>> getAfter(@RequestBody LocalDateTime limit){
+    @GetMapping("/schedule/getAfter/{epoch}")
+    public ResponseEntity<List<Schedule>> getAfter(@PathVariable long epoch){
+        LocalDateTime limit = LocalDateTime.ofEpochSecond(epoch, 0, ZoneOffset.MIN);
         List<Schedule> results = ScheduleModel.getInstance().getAfter(limit);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/schedule/getBetween")
-    public ResponseEntity<List<Schedule>> getBetween(@RequestBody Pair<LocalDateTime, LocalDateTime> timePair) {
-        List<Schedule> results = ScheduleModel.getInstance().getBetween(timePair.getFirst(), timePair.getSecond());
+    @GetMapping("/schedule/getBetween/{startEpoch}/{endEpoch}")
+    public ResponseEntity<List<Schedule>> getBetween(@PathVariable long startEpoch, @PathVariable long endEpoch) {
+        LocalDateTime start = LocalDateTime.ofEpochSecond(startEpoch, 0, ZoneOffset.MIN);
+        LocalDateTime end = LocalDateTime.ofEpochSecond(endEpoch, 0, ZoneOffset.MIN);
+        List<Schedule> results = ScheduleModel.getInstance().getBetween(start, end);
         return ResponseEntity.ok(results);
     }
 

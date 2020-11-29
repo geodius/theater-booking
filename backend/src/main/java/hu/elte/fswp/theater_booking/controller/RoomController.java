@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,27 +27,31 @@ public class RoomController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/room/getByName")
-    public ResponseEntity<Optional<Room>> getByName(@RequestBody String name){
+    @GetMapping("/room/getByName/{encodedName}")
+    public ResponseEntity<Optional<Room>> getByName(@PathVariable String encodedName){
+        String name;
+        try { name = new String(Base64.getDecoder().decode(encodedName), Charset.forName("ISO-8859-2")); }
+        catch (Exception e) { return ResponseEntity.badRequest().build(); }
+
         Optional<Room> results = RoomModel.getInstance().getByName(name);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/room/getByCapacityLessThan")
-    public ResponseEntity<List<Room>> getByCapacityLessThan(@RequestBody int limit){
+    @GetMapping("/room/getByCapacityLessThan/{limit}")
+    public ResponseEntity<List<Room>> getByCapacityLessThan(@PathVariable int limit){
         List<Room> results = RoomModel.getInstance().getByCapacityLessThan(limit);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/room/getByCapacityGreaterThan")
-    public ResponseEntity<List<Room>> getByCapacityGreaterThan(@RequestBody int limit){
+    @GetMapping("/room/getByCapacityGreaterThan/{limit}")
+    public ResponseEntity<List<Room>> getByCapacityGreaterThan(@PathVariable int limit){
         List<Room> results = RoomModel.getInstance().getByCapacityGreaterThan(limit);
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/room/getByCapacityBetween")
-    public ResponseEntity<List<Room>> getByCapacityBetween(@RequestBody Pair<Integer, Integer> intPair){
-        List<Room> results = RoomModel.getInstance().getByCapacityBetween(intPair.getFirst(), intPair.getSecond());
+    @GetMapping("/room/getByCapacityBetween/{start}/{end}")
+    public ResponseEntity<List<Room>> getByCapacityBetween(@PathVariable int start, @PathVariable int end){
+        List<Room> results = RoomModel.getInstance().getByCapacityBetween(start, end);
         return ResponseEntity.ok(results);
     }
 
