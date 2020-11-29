@@ -1,0 +1,44 @@
+#login {
+  width: 30%;
+  margin: 0 auto;
+  color: #c4c4c4;
+}
+#login div {
+  color: #dc3545;
+  text-align: center;
+  font-size: 15px;
+}
+#login form {
+  background: #313131;
+  width: 250px;
+  margin: 0 auto;
+  padding: 10px;
+}
+#login input {
+  border: 1px solid #ddd;
+}
+#login input[type=email],
+#login input[type=password] {
+  width: 100%;
+}
+#login input[type=submit],
+#login input[type=button] {
+  padding: 10px;
+  border-radius: 20px;
+  background: #c4c4c4;
+  border: 0;
+  transition: background-color 250ms;
+}
+#login input[type=submit]:hover,
+#login input[type=button]:hover {
+  background: #dc3545;
+}
+#login table {
+  width: 100%;
+}
+#login td {
+  padding: 5px;
+}
+#login tr:last-child td {
+  text-align: center;
+}

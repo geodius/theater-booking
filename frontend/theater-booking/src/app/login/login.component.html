@@ -1,0 +1,23 @@
+<section id="login">
+  <h1>Belépés és regisztráció</h1>
+  <div *ngIf="loginFailed">Hibás email cím vagy jelszó!</div>
+  <form>
+    <table>
+      <tr>
+        <td><label for="email">Email:</label></td>
+        <td><input type="email" name="email" id="email" required></td>
+      </tr>
+      <tr>
+        <td><label for="password">Jelszó:</label></td>
+        <td><input type="password" name="password" id="password" required></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <input type="submit" value="Belépek" (submit)="$event.preventDefault(); login()">
+          &nbsp;
+          <input type="button" value="Regisztrálok" (close)="register()">
+        </td>
+      </tr>
+    </table>
+  </form>
+</section>
