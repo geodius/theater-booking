@@ -22,52 +22,16 @@ body {
   font-size: 14px;
   background: #000;
 }
-
+h1 {
+  text-align: center;
+  margin-bottom: 50px;
+  font-variant: small-caps;
+  color: #c4c4c4;
+}
 .carousel {
   width: 800px;
   margin: 0 auto 50px auto;
 }
 .carousel-item {
   transition: transform .6s ease-in-out !important;
-}
-
-.calendar {
-  width: 60%;
-  margin: 0 auto;
-  padding-top: 20px;
-}
-.calendar nav {
-  border-bottom: 2px solid #ff0000;
-  height: 42px;
-}
-.calendar nav a {
-  display: inline-block;
-  margin-left: 20px;
-  padding: 10px;
-  background: transparent;
-  border-radius: 10px 10px 0 0;
-  height: 42px;
-  color: #c4c4c4;
-  font-family: 'wings_of_darknessregular';
-  text-decoration: none;
-}
-.calendar nav a:hover {
-  color: #ff0000;
-}
-.calendar nav a.active {
-  background: #ff0000;
-}
-.calendar nav a.active:hover {
-  color: #c4c4c4;
-}
-.calendar nav a:first-child {
-  margin-left: 0;
-}
-
-.calendar-table{
-  background: #e0e5e7;
-}
-
-th {
-  font-size: 20px;
 }
