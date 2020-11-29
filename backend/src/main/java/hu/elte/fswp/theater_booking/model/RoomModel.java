@@ -35,6 +35,10 @@ public class RoomModel {
         return roomRepo.findByName(room.getName());
     }
 
+    public Optional<Room> getById(int roomId) {
+        return roomRepo.findById(roomId);
+    }
+
     public Optional<Room> getByName(String name) {
         return roomRepo.findByName(name);
     }
