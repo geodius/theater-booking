@@ -38,6 +38,8 @@ public class PersonModel {
         if (personRepo.findById(person.getId()).isPresent()) return Optional.empty();
         if (personRepo.findByEmail(person.getEmail()).isPresent()) return Optional.empty();
         person.clearRoles();
+        personRepo.save(person);
+        person = personRepo.findByEmail(person.getEmail()).get();
         roleRepo.findByRoleType(RoleType.USER).ifPresent(person::addRole);
         personRepo.save(person);
         return personRepo.findByEmail(person.getEmail());
