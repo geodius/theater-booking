@@ -1,4 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {TheaterService} from '../theater.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,8 +8,11 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   @Output() navbarSelectionChanged = new EventEmitter<string>();
+  public theaterService: TheaterService;
 
-  constructor() { }
+  constructor(theaterService: TheaterService) {
+    this.theaterService = theaterService;
+  }
 
   ngOnInit(): void {
     const links = document.getElementById('navbar').getElementsByTagName('a') as HTMLCollectionOf<HTMLAnchorElement>;
