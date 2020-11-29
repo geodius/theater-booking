@@ -1,0 +1,43 @@
+#login-register {
+  width: 30%;
+  margin: 0 auto;
+  color: #c4c4c4;
+}
+#login-register div {
+  color: #dc3545;
+  text-align: center;
+  font-size: 15px;
+}
+#login-register form {
+  background: #313131;
+  width: 250px;
+  margin: 0 auto;
+  padding: 10px;
+}
+#login-register input {
+  border: 1px solid #ddd;
+}
+#login-register input[type=text],
+#login-register input[type=email],
+#login-register input[type=password] {
+  width: 100%;
+}
+#login-register input[type=submit] {
+  padding: 10px;
+  border-radius: 20px;
+  background: #c4c4c4;
+  border: 0;
+  transition: background-color 250ms;
+}
+#login-register input[type=submit]:hover {
+  background: #dc3545;
+}
+#login-register table {
+  width: 100%;
+}
+#login-register td {
+  padding: 5px;
+}
+#login-register tr:last-child td {
+  text-align: center;
+}

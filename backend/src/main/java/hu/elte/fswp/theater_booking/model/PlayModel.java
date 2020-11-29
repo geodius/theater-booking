@@ -18,40 +18,40 @@ public class PlayModel {
         return instance;
     }
 
-    private final PlayRepo PlayRepo;
+    private final PlayRepo playRepo;
 
     @Autowired
     public PlayModel(PlayRepo playRepo) {
         assert(instance == null);
         instance = this;
-        this.PlayRepo = playRepo;
+        this.playRepo = playRepo;
     }
 
     public Optional<Play> create(Play play) {
         if (!play.isPlayValid(play)) return Optional.empty();
-        if (PlayRepo.findById(play.getId()).isPresent()) return Optional.empty();
-        PlayRepo.save(play);
-        return PlayRepo.findFirstByNameOrderByIdDesc(play.getName());
+        if (playRepo.findById(play.getId()).isPresent()) return Optional.empty();
+        playRepo.save(play);
+        return playRepo.findFirstByNameOrderByIdDesc(play.getName());
     }
 
     public List<Play> getByName(String name) {
-        return PlayRepo.findAllByName(name);
+        return playRepo.findAllByName(name);
     }
 
     public List<Play> getAll() {
-        return Utility.ConvertIterableToList(PlayRepo.findAll());
+        return Utility.ConvertIterableToList(playRepo.findAll());
     }
 
     public Optional<Play> modify(Play play) {
         if (!Play.isPlayValid(play)) return Optional.empty();
-        if (PlayRepo.findById(play.getId()).isEmpty()) return Optional.empty();
-        PlayRepo.save(play);
-        return PlayRepo.findById(play.getId());
+        if (playRepo.findById(play.getId()).isEmpty()) return Optional.empty();
+        playRepo.save(play);
+        return playRepo.findById(play.getId());
     }
 
     public boolean delete(Play play) {
-        if (!PlayRepo.existsById(play.getId())) return false;
-        PlayRepo.delete(play);
+        if (!playRepo.existsById(play.getId())) return false;
+        playRepo.delete(play);
         return true;
     }
 }

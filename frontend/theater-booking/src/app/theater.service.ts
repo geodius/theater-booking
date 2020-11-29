@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import DateTimeFormat = Intl.DateTimeFormat;
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {share} from 'rxjs/operators';
 import {Urls} from './Urls';
-import {ParseArgumentException} from '@angular/cli/models/parser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +9,7 @@ import {ParseArgumentException} from '@angular/cli/models/parser';
 export class TheaterService {
   private http: HttpClient;
   private authorizationToken: string;
+  public loggedIn = false;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -22,6 +20,9 @@ export class TheaterService {
       this.startRequest<Person>(RequestType.PUT, Urls.PERSON_CREATE, person).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -35,6 +36,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -43,6 +47,9 @@ export class TheaterService {
       this.startRequest<Person>(RequestType.GET, Urls.PERSON_GET_BY_EMAIL, email).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -56,6 +63,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -64,6 +74,9 @@ export class TheaterService {
       this.startRequest<Person>(RequestType.GET, Urls.PERSON_GET_CURRENT).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -75,6 +88,9 @@ export class TheaterService {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -85,6 +101,9 @@ export class TheaterService {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -93,6 +112,9 @@ export class TheaterService {
       this.startRequest<Person>(RequestType.PATCH, Urls.PERSON_MODIFY, person).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -107,6 +129,9 @@ export class TheaterService {
         const parsed = Play.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -118,6 +143,9 @@ export class TheaterService {
           parsed.push(Play.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -131,6 +159,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -139,6 +170,9 @@ export class TheaterService {
       this.startRequest<Play>(RequestType.PATCH, Urls.PLAY_MODIFY, play).toPromise().then(p => {
         const parsed = Play.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -153,6 +187,9 @@ export class TheaterService {
         const parsed = Reservation.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -164,6 +201,9 @@ export class TheaterService {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -177,6 +217,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -188,6 +231,9 @@ export class TheaterService {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -201,6 +247,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -213,6 +262,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -221,6 +273,9 @@ export class TheaterService {
       this.startRequest<Reservation>(RequestType.PATCH, Urls.RESERVATION_MODIFY, reservation).toPromise().then(p => {
         const parsed = Reservation.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -235,6 +290,9 @@ export class TheaterService {
         const parsed = Room.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -246,6 +304,9 @@ export class TheaterService {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -259,6 +320,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -271,6 +335,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -282,6 +349,9 @@ export class TheaterService {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -296,6 +366,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -304,6 +377,9 @@ export class TheaterService {
       this.startRequest<Room>(RequestType.PATCH, Urls.ROOM_MODIFY, room).toPromise().then(p => {
         const parsed = Room.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -318,6 +394,9 @@ export class TheaterService {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -329,6 +408,9 @@ export class TheaterService {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -342,6 +424,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -353,6 +438,9 @@ export class TheaterService {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -366,6 +454,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -377,6 +468,9 @@ export class TheaterService {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -391,6 +485,9 @@ export class TheaterService {
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -399,6 +496,9 @@ export class TheaterService {
       this.startRequest<Schedule>(RequestType.PATCH, Urls.SCHEDULE_MODIFY, schedule).toPromise().then(p => {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -424,13 +524,23 @@ export class TheaterService {
       case RequestType.DELETE: reqTypeStr = 'DELETE'; break;
     }
     const result = this.http.request<T>(reqTypeStr, url, {body, headers: this.getRequestHeader()});
-    result.subscribe(_ => {}, error => console.error(error));
+    // result.subscribe(_ => {}, error => console.error(error));
     return result;
   }
 
   public login(email: string, password: string): Observable<Person> {
     this.authorizationToken = btoa(email + ':' + password);
-    return this.getCurrentPerson();
+    const result = this.getCurrentPerson();
+    this.getCurrentPerson().subscribe(next => this.loggedIn = true);
+    return result;
+  }
+
+  public register(name: string, email: string, password: string): Observable<Person> {
+    const person = new Person(undefined);
+    person.name = name;
+    person.email = email;
+    person.password = password;
+    return this.createPerson(person);
   }
 }
 export class Person {

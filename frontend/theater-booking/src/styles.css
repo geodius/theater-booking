@@ -24,9 +24,12 @@ body {
 }
 h1 {
   text-align: center;
-  margin-bottom: 50px;
+  margin: 50px 0;
   font-variant: small-caps;
   color: #c4c4c4;
+}
+h1:first-child {
+  margin-top: 0;
 }
 .carousel {
   width: 800px;
