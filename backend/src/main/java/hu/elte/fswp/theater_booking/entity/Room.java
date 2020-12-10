@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Room {
+public class Room implements DBEntity {
     public static boolean isRoomValid(Room room){
         return room.getName() != null && room.getName().length() > 0;
     }
@@ -55,5 +55,10 @@ public class Room {
 
     public boolean isSeatValid(int seat) {
         return seat > 0 && seat <= capacity;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

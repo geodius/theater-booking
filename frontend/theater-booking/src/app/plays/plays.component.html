@@ -9,10 +9,12 @@
       <ul>
         <ng-container *ngFor="let schedule of play.schedules">
           <li *ngIf="isOnThisWeek(schedule.start)">
-            {{getDisplayDate(schedule.start)}}
+            <a href="#" (click)="$event.preventDefault(); scheduleClicked(schedule)">{{getDisplayDate(schedule.start)}}</a>
           </li>
         </ng-container>
       </ul>
     </div>
   </article>
 </section>
+
+<app-ticket-reservation-overlay *ngIf="showTicketOverlay" [schedule]="overlaySchedule" (closeWindow)="showTicketOverlay = false"></app-ticket-reservation-overlay>

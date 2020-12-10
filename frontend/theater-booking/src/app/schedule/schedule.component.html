@@ -1,12 +1,14 @@
 <section id="schedule">
   <h1>Műsor</h1>
   <table *ngFor="let day of days">
-    <caption>{{day.date.getFullYear()}}.{{(day.date.getMonth() + '').padStart(2, '0')}}.{{(day.date.getDate() + '').padStart(2, '0')}}</caption>
+    <caption>{{day.date.getFullYear()}}.{{((day.date.getMonth() + 1) + '').padStart(2, '0')}}.{{(day.date.getDate() + '').padStart(2, '0')}}</caption>
     <tr *ngFor="let play of day.plays">
       <td title="{{play.logline}}">{{play.name}}</td>
       <td>
         <ng-container *ngFor="let schedule of play.schedules">
-          <button *ngIf="isSameDay(day.date, schedule.start)" [class.finished]="isStarted(schedule.start)">
+          <button *ngIf="isSameDay(day.date, schedule.start)"
+                  [class.finished]="isStarted(schedule.start)"
+                  (click)="showTicketOverlay = true; overlaySchedule = schedule">
             {{padTime(schedule.start.getHours())}}:
             {{padTime(schedule.start.getMinutes())}}
             <span>
@@ -20,3 +22,5 @@
     </tr>
   </table>
 </section>
+
+<app-ticket-reservation-overlay *ngIf="showTicketOverlay" [schedule]="overlaySchedule" (closeWindow)="showTicketOverlay = false"></app-ticket-reservation-overlay>

@@ -76,7 +76,7 @@ public class ReservationController {
     @DeleteMapping("/reservation/delete")
     public ResponseEntity<Boolean> delete(@RequestBody Reservation reservation) {
         Person currentPerson = TheaterBookingUserDetailsService.getCurrentUser();
-        if (!currentPerson.hasRole(RoleType.ADMIN) && !reservation.getPerson().equals(currentPerson)) {
+        if (!currentPerson.hasRole(RoleType.ADMIN) && !reservation.getPerson().isSameAs(currentPerson)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         boolean result = ReservationModel.getInstance().delete(reservation);

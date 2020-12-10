@@ -40,6 +40,7 @@
   margin-top: 10px;
 }
 #calendar-content .play {
+  cursor: pointer;
   font-size: 15px;
   line-height: 25px;
   color: #c4c4c4;

@@ -24,3 +24,6 @@
 #plays div ul li {
   margin-left: 40px;
 }
+#plays div ul li a {
+  color: #f37e7c;
+}

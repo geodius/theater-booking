@@ -8,8 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Schedule {
+public class Schedule implements DBEntity {
     public static boolean isScheduleValid(Schedule schedule){
         return schedule.start != null && schedule.room != null && schedule.play != null;
     }
@@ -69,5 +67,10 @@ public class Schedule {
 
     public void setPlay(Play play) {
         this.play = play;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

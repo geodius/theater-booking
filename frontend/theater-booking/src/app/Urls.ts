@@ -42,6 +42,7 @@ export class Urls {
   private static SCHEDULE_CONTROLLER = Urls.API_PREFIX + '/schedule';
   public static SCHEDULE_CREATE = Urls.SCHEDULE_CONTROLLER + '/create';
   public static SCHEDULE_GET_ALL = Urls.SCHEDULE_CONTROLLER + '/getAll';
+  public static SCHEDULE_GET_BY_ID = Urls.SCHEDULE_CONTROLLER + '/getById';
   public static SCHEDULE_GET_BY_PLAY = Urls.SCHEDULE_CONTROLLER + '/getByPlay';
   public static SCHEDULE_GET_BY_ROOM = Urls.SCHEDULE_CONTROLLER + '/getByRoom';
   public static SCHEDULE_GET_BEFORE = Urls.SCHEDULE_CONTROLLER + '/getBefore';
@@ -49,4 +50,8 @@ export class Urls {
   public static SCHEDULE_GET_BETWEEN = Urls.SCHEDULE_CONTROLLER + '/getBetween';
   public static SCHEDULE_MODIFY = Urls.SCHEDULE_CONTROLLER + '/modify';
   public static SCHEDULE_DELETE = Urls.SCHEDULE_CONTROLLER + '/delete';
+
+  private static ASSET_PREFIX = 'assets';
+
+  public static ROOM_LAYOUT_CONTAINER = Urls.ASSET_PREFIX + '/rooms';
 }
