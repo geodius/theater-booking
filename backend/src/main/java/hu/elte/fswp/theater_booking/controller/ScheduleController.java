@@ -32,6 +32,12 @@ public class ScheduleController {
         return ResponseEntity.ok(results);
     }
 
+    @GetMapping("/schedule/getById/{id}")
+    public ResponseEntity<Schedule> getById(@PathVariable int id) {
+        Optional<Schedule> schedule = ScheduleModel.getInstance().getById(id);
+        return schedule.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
     @GetMapping("/schedule/getByPlay/{playId}")
     public ResponseEntity<List<Schedule>> getByPlay(@PathVariable int playId){
         Optional<Play> play = PlayModel.getInstance().getById(playId);

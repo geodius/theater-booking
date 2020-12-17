@@ -14,6 +14,7 @@ import { TicketsComponent } from './tickets/tickets.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { PlaysComponent } from './plays/plays.component';
 import {CommonModule} from '@angular/common';
+import { TicketReservationOverlayComponent } from './ticket-reservation-overlay/ticket-reservation-overlay.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import {CommonModule} from '@angular/common';
     LoginComponent,
     TicketsComponent,
     ScheduleComponent,
-    PlaysComponent
+    PlaysComponent,
+    TicketReservationOverlayComponent
   ],
   imports: [
     BrowserModule,

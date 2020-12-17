@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {Play, TheaterService} from '../theater.service';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Play, Schedule, TheaterService} from '../theater.service';
 
 @Component({
   selector: 'app-plays',
@@ -8,6 +8,8 @@ import {Play, TheaterService} from '../theater.service';
 })
 export class PlaysComponent implements OnInit {
   private theaterService: TheaterService;
+  public showTicketOverlay: boolean;
+  public overlaySchedule: Schedule;
 
   plays: Play[] = [];
 
@@ -30,7 +32,12 @@ export class PlaysComponent implements OnInit {
   }
 
   getDisplayDate(start: Date): string {
-    return ('' + start.getMonth()).padStart(2, '0') + '.' + ('' + start.getDate()).padStart(2, '0') + ' (' +
+    return ('' + (start.getMonth() + 1)).padStart(2, '0') + '.' + ('' + start.getDate()).padStart(2, '0') + ' (' +
            start.toLocaleString('default', {weekday: 'long'}) + ')';
+  }
+
+  scheduleClicked(schedule: Schedule): void {
+    this.showTicketOverlay = true;
+    this.overlaySchedule = schedule;
   }
 }

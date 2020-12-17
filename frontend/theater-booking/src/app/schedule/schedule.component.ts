@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Play, TheaterService} from '../theater.service';
+import {Play, Schedule, TheaterService} from '../theater.service';
 
 @Component({
   selector: 'app-schedule',
@@ -9,6 +9,8 @@ import {Play, TheaterService} from '../theater.service';
 export class ScheduleComponent implements OnInit {
   private theaterService: TheaterService;
   public days: ScheduledDay[] = [];
+  public showTicketOverlay: boolean;
+  public overlaySchedule: Schedule;
 
   constructor(theaterService: TheaterService) {
     this.theaterService = theaterService;
@@ -29,7 +31,6 @@ export class ScheduleComponent implements OnInit {
         }
         const scheduledDay = temp.get(dayEpoch);
         if (!scheduledDay.plays.find(p => p.id === play.id)) {
-          console.log(2);
           scheduledDay.plays.push(play);
         }
       }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Play, TheaterService} from '../theater.service';
+import {Play, Schedule, TheaterService} from '../theater.service';
 
 @Component({
   selector: 'app-calendar-schedule',
@@ -8,6 +8,8 @@ import {Play, TheaterService} from '../theater.service';
 })
 export class CalendarScheduleComponent implements OnInit {
   private theaterService: TheaterService;
+  public showTicketOverlay: boolean;
+  public overlaySchedule: Schedule;
 
   plays: Play[] = [];
 

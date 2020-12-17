@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Play {
+public class Play implements DBEntity {
     public static boolean isPlayValid(Play play){
         return play.getName() != null && play.getName().length() > 0 && play.getLength() > 0;
     }
@@ -64,5 +64,10 @@ public class Play {
 
     public void setLogline(String logline) {
         this.logline = logline;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

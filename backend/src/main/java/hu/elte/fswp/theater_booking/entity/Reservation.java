@@ -16,7 +16,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Reservation {
+public class Reservation implements DBEntity {
     @Id
     private int id;
     private int seat;
@@ -55,5 +55,10 @@ public class Reservation {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

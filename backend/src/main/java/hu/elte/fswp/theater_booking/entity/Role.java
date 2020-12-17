@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Role implements GrantedAuthority {
+public class Role implements GrantedAuthority, DBEntity {
     @Id
     private int id;
 
@@ -44,5 +44,10 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return roleType.name();
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }
