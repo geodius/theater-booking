@@ -169,8 +169,9 @@ export class TheaterService {
     });
   }
   public modifyPlay(play: Play): Observable<Play> {
+    const serializablePlay = play.prepareDirectSerialization();
     return new Observable<Play>(observer => {
-      this.startRequest<Play>(RequestType.PATCH, Urls.PLAY_MODIFY, play).toPromise().then(p => {
+      this.startRequest<Play>(RequestType.PATCH, Urls.PLAY_MODIFY, serializablePlay).toPromise().then(p => {
         const parsed = Play.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
@@ -686,6 +687,15 @@ export class Play {
     p.copyPrimitiveData(parsed);
     p.copyReferences(parsed);
     return p;
+  }
+
+  public prepareDirectSerialization(): Play {
+    const serializable = new Play(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const schedule of this.schedules) {
+      serializable.schedules.push(schedule.prepareSerialization());
+    }
+    return serializable;
   }
 
   private copyPrimitiveData(source: any): void {

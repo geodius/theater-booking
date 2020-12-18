@@ -44,13 +44,14 @@ table tr td input[type=email] {
   width: 100%;
   background: transparent;
   outline: none;
-  transition: background-color 250ms, border-radius 250ms, margin-left 250ms;
+  transition: background-color 250ms, border-radius 250ms, margin-left 250ms, padding-left 250ms;
 }
 table tr td input[type=text]:read-write,
 table tr td input[type=email]:read-write {
   background: cornflowerblue;
   border-radius: 10px;
   margin-left: 10px;
+  padding-left: 10px;
 }
 table tr td button {
   margin-left: 10px;

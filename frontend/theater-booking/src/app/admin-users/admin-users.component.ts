@@ -20,18 +20,18 @@ export class AdminUsersComponent implements OnInit {
   }
 
   addNewUser(form: HTMLFormElement): void {
-    const name = (form.elements.namedItem('newName') as HTMLInputElement).value;
-    const email = (form.elements.namedItem('newEmail') as HTMLInputElement).value;
-    const passwd = (form.elements.namedItem('newPassword') as HTMLInputElement).value;
+    const name = (form.elements.namedItem('newUserName') as HTMLInputElement).value;
+    const email = (form.elements.namedItem('newUserEmail') as HTMLInputElement).value;
+    const passwd = (form.elements.namedItem('newUserPassword') as HTMLInputElement).value;
 
     const newUser = new Person(undefined);
     newUser.name = name;
     newUser.email = email;
     newUser.password = passwd;
     this.theaterService.createPerson(newUser).subscribe(next => {
-      (form.elements.namedItem('newName') as HTMLInputElement).value = '';
-      (form.elements.namedItem('newEmail') as HTMLInputElement).value = '';
-      (form.elements.namedItem('newPassword') as HTMLInputElement).value = '';
+      (form.elements.namedItem('newUserName') as HTMLInputElement).value = '';
+      (form.elements.namedItem('newUserEmail') as HTMLInputElement).value = '';
+      (form.elements.namedItem('newUserPassword') as HTMLInputElement).value = '';
       this.reloadPersons();
     }, error => console.log(error));
   }
