@@ -15,6 +15,11 @@ import { ScheduleComponent } from './schedule/schedule.component';
 import { PlaysComponent } from './plays/plays.component';
 import {CommonModule} from '@angular/common';
 import { TicketReservationOverlayComponent } from './ticket-reservation-overlay/ticket-reservation-overlay.component';
+import { AdminMainComponent } from './admin-main/admin-main.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { AdminPlaysComponent } from './admin-plays/admin-plays.component';
+import { AdminScheduleComponent } from './admin-schedule/admin-schedule.component';
+import { AdminTicketsComponent } from './admin-tickets/admin-tickets.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +32,12 @@ import { TicketReservationOverlayComponent } from './ticket-reservation-overlay/
     TicketsComponent,
     ScheduleComponent,
     PlaysComponent,
-    TicketReservationOverlayComponent
+    TicketReservationOverlayComponent,
+    AdminMainComponent,
+    AdminUsersComponent,
+    AdminPlaysComponent,
+    AdminScheduleComponent,
+    AdminTicketsComponent
   ],
   imports: [
     BrowserModule,

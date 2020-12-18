@@ -9,6 +9,7 @@
           <li><a (click)="navLinkClicked($event, this)" href="#tickets">Jegyek</a></li>
           <li><a (click)="navLinkClicked($event, this)" href="#schedule">Műsor</a></li>
           <li *ngIf="!theaterService.loggedIn"><a (click)="navLinkClicked($event, this)" href="#login">Belépés</a></li>
+          <li *ngIf="theaterService.admin"><a (click)="navLinkClicked($event, this)" href="#admin">Admin</a></li>
         </ul>
       </nav>
     </div>
