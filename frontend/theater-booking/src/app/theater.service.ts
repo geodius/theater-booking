@@ -110,7 +110,8 @@ export class TheaterService {
   }
   public modifyPerson(person: Person): Observable<Person> {
     return new Observable<Person>(observer => {
-      this.startRequest<Person>(RequestType.PATCH, Urls.PERSON_MODIFY, person).toPromise().then(p => {
+      const serializablePerson = person.prepareDirectSerialization();
+      this.startRequest<Person>(RequestType.PATCH, Urls.PERSON_MODIFY, serializablePerson).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
@@ -121,7 +122,8 @@ export class TheaterService {
     });
   }
   public deletePerson(person: Person): Observable<boolean> {
-    return this.startRequest<boolean>(RequestType.DELETE, Urls.PERSON_DELETE, person);
+    const serializablePerson = person.prepareDirectSerialization();
+    return this.startRequest<boolean>(RequestType.DELETE, Urls.PERSON_DELETE, serializablePerson);
   }
 
   public createPlay(play: Play): Observable<Play> {
@@ -641,6 +643,18 @@ export class Person {
     this.roles = source.roles;
   }
 
+  public prepareDirectSerialization(): Person {
+    const serializable = new Person(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const role of this.roles) {
+      serializable.roles.push(role.prepareSerialization());
+    }
+    for (const reservation of this.reservations) {
+      serializable.reservations.push(reservation.prepareSerialization());
+    }
+    return serializable;
+  }
+
   public prepareSerialization(): Person {
     const serializable = new Person(undefined);
     serializable.copyPrimitiveData(this);
@@ -751,6 +765,13 @@ export class Role {
     r.copyPrimitiveData(parsed);
     r.copyReferences(parsed);
     return r;
+  }
+
+  public prepareSerialization(): Role {
+    const serializable = new Role(undefined);
+    serializable.copyPrimitiveData(this);
+    serializable.people = null;
+    return serializable;
   }
 
   private copyPrimitiveData(source: any): void {

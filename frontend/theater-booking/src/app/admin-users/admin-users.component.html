@@ -1,1 +1,19 @@
-<p>admin-users works!</p>
+<div>
+  <form>
+    <label for="newName">Név:</label> <input type="text" id="newName">
+    <label for="newEmail">Email:</label> <input type="email" id="newEmail">
+    <label for="newPassword">Jelszó:</label> <input type="password" id="newPassword">
+    <input type="submit" value="Hozzáad" (click)="addNewUser($event.target.form)" (submit)="$event.preventDefault()">
+  </form>
+  <table>
+    <tr *ngFor="let user of users">
+      <td><input type="text" class="name" [(ngModel)]="user.name" [readOnly]="userToEdit !== user.id"></td>
+      <td><input type="email" class="email" [(ngModel)]="user.email" [readOnly]="userToEdit !== user.id"></td>
+      <td>
+        <button *ngIf="userToEdit !== user.id" (click)="userToEdit = user.id"><i class="fas fa-user-edit"></i></button>
+        <button *ngIf="userToEdit === user.id" (click)="modifyUser(user)"><i class="fas fa-user-check"></i></button>
+        <button (click)="deleteUser(user)"><i class="fas fa-user-times"></i></button>
+      </td>
+    </tr>
+  </table>
+</div>
