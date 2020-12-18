@@ -49,8 +49,13 @@ public class PlayModel {
 
     public Optional<Play> modify(Play play) {
         if (!Play.isPlayValid(play)) return Optional.empty();
-        if (playRepo.findById(play.getId()).isEmpty()) return Optional.empty();
-        playRepo.save(play);
+        Optional<Play> dbPlay = playRepo.findById(play.getId());
+        if (dbPlay.isEmpty()) return Optional.empty();
+        Play p = dbPlay.get();
+        p.setName(play.getName());
+        p.setLogline(play.getLogline());
+        p.setLength(play.getLength());
+        playRepo.save(p);
         return playRepo.findById(play.getId());
     }
 
