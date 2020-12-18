@@ -391,8 +391,9 @@ export class TheaterService {
   }
 
   public createSchedule(schedule: Schedule): Observable<Schedule> {
+    const serializableSchedule = schedule.prepareDirectSerialization();
     return new Observable<Schedule>(observer => {
-      this.startRequest<Schedule>(RequestType.PUT, Urls.SCHEDULE_CREATE, schedule).toPromise().then(p => {
+      this.startRequest<Schedule>(RequestType.PUT, Urls.SCHEDULE_CREATE, serializableSchedule).toPromise().then(p => {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
@@ -505,8 +506,9 @@ export class TheaterService {
     });
   }
   public modifySchedule(schedule: Schedule): Observable<Schedule> {
+    const serializableSchedule = schedule.prepareDirectSerialization();
     return new Observable<Schedule>(observer => {
-      this.startRequest<Schedule>(RequestType.PATCH, Urls.SCHEDULE_MODIFY, schedule).toPromise().then(p => {
+      this.startRequest<Schedule>(RequestType.PATCH, Urls.SCHEDULE_MODIFY, serializableSchedule).toPromise().then(p => {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
@@ -517,7 +519,8 @@ export class TheaterService {
     });
   }
   public deleteSchedule(schedule: Schedule): Observable<boolean> {
-    return this.startRequest<boolean>(RequestType.DELETE, Urls.SCHEDULE_DELETE, schedule);
+    const serializableSchedule = schedule.prepareDirectSerialization();
+    return this.startRequest<boolean>(RequestType.DELETE, Urls.SCHEDULE_DELETE, serializableSchedule);
   }
 
   private getRequestHeader(): any {
@@ -698,6 +701,12 @@ export class Play {
     return serializable;
   }
 
+  public prepareSerialization(): Play {
+    const serializable = new Play(undefined);
+    serializable.copyPrimitiveData(this);
+    return serializable;
+  }
+
   private copyPrimitiveData(source: any): void {
     this.id = source.id;
     this.name = source.name;
@@ -818,6 +827,12 @@ export class Room {
     return r;
   }
 
+  public prepareSerialization(): Room {
+    const serializable = new Room(undefined);
+    serializable.copyPrimitiveData(this);
+    return serializable;
+  }
+
   private copyPrimitiveData(source: any): void {
     this.id = source.id;
     this.name = source.name;
@@ -841,6 +856,7 @@ export class Schedule {
   public static instances: Map<number, Schedule> = new Map<number, Schedule>();
   public id: number;
   public start: Date;
+  public startStr: string;
   public reservations: Reservation[] = [];
   public room: Room;
   public play: Play;
@@ -857,11 +873,27 @@ export class Schedule {
   private copyPrimitiveData(source: any): void {
     this.id = source.id;
     this.start = new Date(source.start);
+    this.startStr = this.start.getFullYear() + '-' +
+                    (this.start.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                    this.start.getDate().toString().padStart(2, '0') + 'T' +
+                    this.start.getHours().toString().padStart(2, '0') + ':' +
+                    (this.start.getMinutes() + 1).toString().padStart(2, '0');
   }
   private copyReferences(source: any): void {
     this.reservations = source.reservations;
     this.room = source.room;
     this.play = source.play;
+  }
+
+  public prepareDirectSerialization(): Schedule {
+    const serializable = new Schedule(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const reservation of this.reservations) {
+      serializable.reservations.push(reservation.prepareSerialization());
+    }
+    serializable.room = this.room.prepareSerialization();
+    serializable.play = this.play.prepareSerialization();
+    return serializable;
   }
 
   public prepareSerialization(): Schedule {

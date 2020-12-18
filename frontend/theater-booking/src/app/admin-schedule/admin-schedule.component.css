@@ -1,0 +1,64 @@
+.fa-edit {
+  color: cornflowerblue;
+}
+.fa-check-square {
+  color: green;
+}
+.fa-times-circle {
+  color: #dc3545;
+}
+label {
+  color: #c4c4c4;
+  margin-right: 10px;
+}
+select,
+input[type=datetime-local] {
+  margin-right: 20px;
+}
+input[type=submit] {
+  padding: 0 10px;
+}
+div {
+  text-align: center;
+}
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+table tr {
+  background: #dddddd;
+}
+table tr:nth-child(even) {
+  background: #c4c4c4;
+}
+table tr td {
+  padding-left: 15px;
+}
+table tr td:last-child {
+  width: 10%;
+  text-align: right;
+  padding-right: 10px;
+}
+table tr td select,
+table tr td input[type=datetime-local] {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  transition: background-color 250ms, border-radius 250ms, margin-left 250ms, padding-left 250ms;
+}
+table tr td select:enabled,
+table tr td input[type=datetime-local]:read-write {
+  background: cornflowerblue;
+  border-radius: 10px;
+  margin-left: 10px;
+  padding-left: 10px;
+}
+table tr td select:disabled {
+  color: black;
+  -webkit-appearance: none;
+  opacity: 1;
+}
+table tr td button {
+  margin-left: 10px;
+  background: transparent;
+}
