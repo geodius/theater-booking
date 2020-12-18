@@ -1,1 +1,38 @@
-<p>admin-schedule works!</p>
+<div>
+  <form>
+    <label for="newSchedulePlay">Előadás:</label>
+    <select id="newSchedulePlay">
+      <option value="-1">-</option>
+      <option *ngFor="let play of plays" [value]="play.id">{{play.name}}</option>
+    </select>
+    <label for="newScheduleRoom">Terem:</label>
+    <select id="newScheduleRoom">
+      <option value="-1">-</option>
+      <option *ngFor="let room of rooms" [value]="room.id">{{room.name}}</option>
+    </select>
+    <label for="newScheduleStart">Hossz (perc):</label> <input type="datetime-local" id="newScheduleStart">
+    <input type="submit" value="Hozzáad" (click)="addNewSchedule($event.target.form)" (submit)="$event.preventDefault()">
+  </form>
+  <table>
+    <tr *ngFor="let schedule of schedules">
+      <td>
+        <select [(ngModel)]="schedule.play.id" [disabled]="scheduleToEdit !== schedule.id">
+          <option *ngFor="let play of plays" [value]="play.id">{{play.name}}</option>
+        </select>
+      </td>
+      <td>
+        <select [(ngModel)]="schedule.room.id" [disabled]="scheduleToEdit !== schedule.id">
+          <option *ngFor="let room of rooms" [value]="room.id">{{room.name}}</option>
+        </select>
+      </td>
+      <td>
+        <input type="datetime-local" [(ngModel)]="schedule.startStr" [readOnly]="scheduleToEdit !== schedule.id">
+      </td>
+      <td>
+        <button *ngIf="scheduleToEdit !== schedule.id" (click)="scheduleToEdit = schedule.id"><i class="fas fa-edit"></i></button>
+        <button *ngIf="scheduleToEdit === schedule.id" (click)="modifySchedule(schedule)"><i class="fas fa-check-square"></i></button>
+        <button (click)="deletePlay(schedule)"><i class="fas fa-times-circle"></i></button>
+      </td>
+    </tr>
+  </table>
+</div>

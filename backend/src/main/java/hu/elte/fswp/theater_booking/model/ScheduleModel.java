@@ -34,6 +34,12 @@ public class ScheduleModel {
     public Optional<Schedule> create(Schedule schedule) {
         if (!Schedule.isScheduleValid(schedule)) return Optional.empty();
         if (scheduleRepo.findById(schedule.getId()).isPresent()) return Optional.empty();
+        Optional<Play> dbPlay = PlayModel.getInstance().getById(schedule.getPlay().getId());
+        if (dbPlay.isEmpty()) return Optional.empty();
+        Optional<Room> dbRoom = RoomModel.getInstance().getById(schedule.getRoom().getId());
+        if (dbRoom.isEmpty()) return Optional.empty();
+        schedule.setPlay(dbPlay.get());
+        schedule.setRoom(dbRoom.get());
         scheduleRepo.save(schedule);
         return scheduleRepo.findByStartAndPlayAndRoomOrderByIdDesc(schedule.getStart(), schedule.getPlay(), schedule.getRoom());
     }
