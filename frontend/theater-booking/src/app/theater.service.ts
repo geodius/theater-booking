@@ -10,6 +10,7 @@ export class TheaterService {
   private http: HttpClient;
   private authorizationToken: string;
   public loggedIn = false;
+  public admin = false;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -552,7 +553,14 @@ export class TheaterService {
   public login(email: string, password: string): Observable<Person> {
     this.authorizationToken = btoa(email + ':' + password);
     const result = this.getCurrentPerson();
-    this.getCurrentPerson().subscribe(next => this.loggedIn = true);
+    this.getCurrentPerson().subscribe(next => {
+      this.loggedIn = true;
+      // @ts-ignore
+      this.admin = next.roles.find(r => r.roleType === RoleType[RoleType.ADMIN]) !== undefined;
+      console.log('admin: ' + this.admin);
+      console.log(next.roles);
+      console.log(RoleType.ADMIN + ' ' + RoleType[RoleType.ADMIN]);
+    });
     return result;
   }
 
