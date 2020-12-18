@@ -1,0 +1,58 @@
+.fa-user-edit {
+  color: cornflowerblue;
+}
+.fa-user-check {
+  color: green;
+}
+.fa-user-times {
+  color: #dc3545;
+}
+label {
+  color: #c4c4c4;
+  margin-right: 10px;
+}
+input[type=text],
+input[type=email],
+input[type=password] {
+  margin-right: 20px;
+}
+input[type=submit] {
+  padding: 0 10px;
+}
+div {
+  text-align: center;
+}
+table {
+  width: 80%;
+  margin: 0 auto;
+}
+table tr {
+  background: #dddddd;
+}
+table tr:nth-child(even) {
+  background: #c4c4c4;
+}
+table tr td {
+  padding-left: 15px;
+}
+table tr td:last-child {
+  text-align: right;
+  padding-right: 10px;
+}
+table tr td input[type=text],
+table tr td input[type=email] {
+  width: 100%;
+  background: transparent;
+  outline: none;
+  transition: background-color 250ms, border-radius 250ms, margin-left 250ms;
+}
+table tr td input[type=text]:read-write,
+table tr td input[type=email]:read-write {
+  background: cornflowerblue;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+table tr td button {
+  margin-left: 10px;
+  background: transparent;
+}
