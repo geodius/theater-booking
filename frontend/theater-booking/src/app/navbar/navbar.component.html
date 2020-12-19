@@ -4,11 +4,12 @@
       <img src="assets/img/theatre.png" alt="LOGO">
       <nav>
         <ul>
-          <li><a href="#home"><i class="fas fa-home"></i></a></li>
-          <li><a href="#plays">Előadások</a></li>
-          <li><a href="#tickets">Jegyek</a></li>
-          <li><a href="#schedule">Műsor</a></li>
-          <li><a href="#login">Belépés</a></li>
+          <li><a (click)="navLinkClicked($event, this)" href="#home"><i class="fas fa-home"></i></a></li>
+          <li><a (click)="navLinkClicked($event, this)" href="#plays">Előadások</a></li>
+          <li><a (click)="navLinkClicked($event, this)" href="#tickets">Jegyek</a></li>
+          <li><a (click)="navLinkClicked($event, this)" href="#schedule">Műsor</a></li>
+          <li *ngIf="!theaterService.loggedIn"><a (click)="navLinkClicked($event, this)" href="#login">Belépés</a></li>
+          <li *ngIf="theaterService.admin"><a (click)="navLinkClicked($event, this)" href="#admin">Admin</a></li>
         </ul>
       </nav>
     </div>

@@ -1,5 +1,7 @@
 package hu.elte.fswp.theater_booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Room {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Room implements DBEntity {
     public static boolean isRoomValid(Room room){
         return room.getName() != null && room.getName().length() > 0;
     }
@@ -23,7 +26,7 @@ public class Room {
     private String name;
     private int capacity;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<Schedule> schedules;
 
     public int getId() {
@@ -52,5 +55,10 @@ public class Room {
 
     public boolean isSeatValid(int seat) {
         return seat > 0 && seat <= capacity;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

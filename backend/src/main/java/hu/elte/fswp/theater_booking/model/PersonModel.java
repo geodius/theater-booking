@@ -38,6 +38,8 @@ public class PersonModel {
         if (personRepo.findById(person.getId()).isPresent()) return Optional.empty();
         if (personRepo.findByEmail(person.getEmail()).isPresent()) return Optional.empty();
         person.clearRoles();
+        personRepo.save(person);
+        person = personRepo.findByEmail(person.getEmail()).get();
         roleRepo.findByRoleType(RoleType.USER).ifPresent(person::addRole);
         personRepo.save(person);
         return personRepo.findByEmail(person.getEmail());
@@ -76,8 +78,12 @@ public class PersonModel {
 
     public Optional<Person> modify(Person person) {
         if (!Person.isPersonValid(person)) return Optional.empty();
-        if (personRepo.findById(person.getId()).isEmpty()) return Optional.empty();
-        personRepo.save(person);
+        Optional<Person> dbPerson = personRepo.findById(person.getId());
+        if (dbPerson.isEmpty()) return Optional.empty();
+        Person p = dbPerson.get();
+        p.setName(person.getName());
+        p.setEmail(person.getEmail());
+        personRepo.save(p);
         return personRepo.findById(person.getId());
     }
 

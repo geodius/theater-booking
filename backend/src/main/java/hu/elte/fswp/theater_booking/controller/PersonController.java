@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.Charset;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,16 +29,30 @@ public class PersonController {
         return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/person/getByEmail")
-    public ResponseEntity<Person> getByEmail(@RequestBody String email){
+    @GetMapping("/person/getByEmail/{encodedEmail}")
+    public ResponseEntity<Person> getByEmail(@PathVariable String encodedEmail){
+        String email;
+        try { email = new String(Base64.getDecoder().decode(encodedEmail), Charset.forName("ISO-8859-2")); }
+        catch (Exception e) { return ResponseEntity.badRequest().build(); }
+
         Optional<Person> result = PersonModel.getInstance().getByEmail(email);
         return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NO_CONTENT).build());
     }
 
-    @GetMapping("/person/getByName")
-    public ResponseEntity<List<Person>> getByName(@RequestBody String name){
+    @GetMapping("/person/getByName/{encodedName}")
+    public ResponseEntity<List<Person>> getByName(@PathVariable String encodedName){
+        String name;
+        try { name = new String(Base64.getDecoder().decode(encodedName), Charset.forName("ISO-8859-2")); }
+        catch (Exception e) { return ResponseEntity.badRequest().build(); }
+
         List<Person> results = PersonModel.getInstance().getByName(name);
         return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/person/getCurrent")
+    public ResponseEntity<Person> getCurrent(){
+        Person currentPerson = TheaterBookingUserDetailsService.getCurrentUser();
+        return ResponseEntity.ok(currentPerson);
     }
 
     @PatchMapping("/person/assignRole")

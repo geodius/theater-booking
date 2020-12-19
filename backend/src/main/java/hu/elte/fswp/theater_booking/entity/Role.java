@@ -1,5 +1,7 @@
 package hu.elte.fswp.theater_booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +17,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Role implements GrantedAuthority {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Role implements GrantedAuthority, DBEntity {
     @Id
     private int id;
 
@@ -41,5 +44,10 @@ public class Role implements GrantedAuthority {
     @Override
     public String getAuthority() {
         return roleType.name();
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

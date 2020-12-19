@@ -38,6 +38,7 @@ public class SecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/person/modify").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/person/delete").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers("/person/getCurrent").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/reservation/create").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/reservation/getByPerson").hasAnyAuthority("USER", "ADMIN")
                 .antMatchers("/reservation/modify").hasAnyAuthority("USER", "ADMIN")

@@ -1,0 +1,29 @@
+#plays {
+  width: 30%;
+  margin: 0 auto;
+  color: #c4c4c4;
+}
+#plays article {
+  margin-top: 20px;
+  background: #313131;
+  padding: 10px;
+}
+#plays article:first-child {
+  margin: 0;
+}
+#plays article span {
+
+}
+#plays article p {
+  text-align: justify;
+  margin: 10px 0 0 0;
+}
+#plays div {
+  margin-top: 20px;
+}
+#plays div ul li {
+  margin-left: 40px;
+}
+#plays div ul li a {
+  color: #f37e7c;
+}

@@ -1,5 +1,7 @@
 package hu.elte.fswp.theater_booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 import org.apache.logging.log4j.util.Strings;
 
@@ -14,19 +16,20 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Person {
-    private static Pattern emailPattern = Pattern.compile("^([A-z0-9\\.\\-\\_]+)@([a-z0-9\\.\\-\\_]+)\\.([a-z]{2,})$");
-    private static Pattern namePattern = Pattern.compile("^[\\p{Lu}][\\p{Ll}]+( [\\p{Lu}][\\p{Ll}]+)+$");
+@JsonIdentityInfo(scope = Person.class, generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Person implements DBEntity {
+    private static final Pattern emailPattern = Pattern.compile("^([A-z0-9\\.\\-\\_]+)@([a-z0-9\\.\\-\\_]+)\\.([a-z]{2,})$");
+    private static final Pattern namePattern = Pattern.compile("^[\\p{Lu}][\\p{Ll}]+( [\\p{Lu}][\\p{Ll}]+)+$");
 
     public static boolean isPersonValid(Person person){
         return isNameValid(person.name) && isEmailValid(person.email) && isPasswordValid(person.password);
     }
 
     public static boolean isEmailValid(String email) {
-        return emailPattern.matcher(email).matches();
+        return email != null && emailPattern.matcher(email).matches();
     }
 
-    public static boolean isNameValid(String name) { return namePattern.matcher(name).matches();}
+    public static boolean isNameValid(String name) { return name != null && namePattern.matcher(name).matches();}
 
     public static boolean isPasswordValid(String password) { return Strings.isNotBlank(password);}
 
@@ -109,5 +112,10 @@ public class Person {
     public void clearRoles(){
         if (roles == null) return;
         roles.clear();
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

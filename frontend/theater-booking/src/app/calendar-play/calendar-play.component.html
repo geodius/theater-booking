@@ -1,20 +1,22 @@
 <section id="calendar-days">
-  <div class="day-box" *ngFor="let day of days; index as i" [class.active]="selectedDay == i" (click)="selectedDay = i">
+  <div class="day-box" *ngFor="let day of days; index as i" [class.active]="selectedDay == i + 1" (click)="selectedDay = i + 1">
     <div class="month">{{day.toLocaleString('default', {month: 'long'})}}</div>
     <div class="day">{{(day.getDate() + '').padStart(2, '0')}}</div>
     <div class="day-name">{{day.toLocaleString('default', {weekday: 'long'})}}</div>
   </div>
 </section>
 <section id="calendar-content">
-  <div class="play" *ngFor="let playData of playDataByDay[selectedDay]">
-    <span title="{{playData.logline}}">{{playData.name}}</span>
-    {{(playData.start.getHours() + '').padStart(2, '0')}}:{{(playData.start.getMinutes() + '').padStart(2, '0')}}
-    -
-    {{(playData.end.getHours() + '').padStart(2, '0')}}:{{(playData.end.getMinutes() + '').padStart(2, '0')}}
-    ({{playData.length}} perc)
-  </div>
+  <ng-container *ngFor="let playData of playDataByDay[selectedDay]">
+    <div class="play" (click)="showTicketOverlay = true; overlaySchedule = playData.schedule">
+      <span title="{{playData.logline}}">{{playData.name}}</span>
+      {{(playData.start.getHours() + '').padStart(2, '0')}}:{{(playData.start.getMinutes() + '').padStart(2, '0')}}
+      -
+      {{(playData.end.getHours() + '').padStart(2, '0')}}:{{(playData.end.getMinutes() + '').padStart(2, '0')}}
+      ({{playData.length}} perc)
+    </div>
+  </ng-container>
 </section>
-
+<app-ticket-reservation-overlay *ngIf="showTicketOverlay" [schedule]="overlaySchedule" (closeWindow)="showTicketOverlay = false"></app-ticket-reservation-overlay>
 <!--
 <table>
   <tr *ngFor="let play of plays">

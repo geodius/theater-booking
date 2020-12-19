@@ -1,5 +1,7 @@
 package hu.elte.fswp.theater_booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,7 +15,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Reservation {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+public class Reservation implements DBEntity {
     @Id
     private int id;
     private int seat;
@@ -52,5 +55,10 @@ public class Reservation {
 
     public void setSchedule(Schedule schedule) {
         this.schedule = schedule;
+    }
+
+    @Override
+    public boolean isSameAs(DBEntity other) {
+        return other.getClass().equals(this.getClass()) && other.getId() == id;
     }
 }

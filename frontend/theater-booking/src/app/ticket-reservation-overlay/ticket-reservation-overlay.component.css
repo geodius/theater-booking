@@ -1,0 +1,53 @@
+.overlay {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 100%;
+  background-color: rgba(196, 196, 196, 0.9);
+  z-index: +200;
+  transform: translate(-50%, -50%);
+}
+.overlay-show {
+  display: block;
+}
+.overlay>i.fas,
+.overlay>i.fa {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  font-size: 25px;
+  cursor: pointer;
+}
+.room {
+  height: 100%;
+  position: relative;
+  left: 50%;
+  transform: scale(0.8, 0.8);
+}
+.room div {
+  position: absolute;
+  background-color: #313131;
+  transition: background 250ms;
+  color: #fff;
+  font-size: 10px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+.room div:hover{
+  background-color: #dc3545;
+  font-weight: bold;
+}
+
+.room div.reserved {
+  background-color: #dc3545;
+  cursor: default;
+}
+
+.room div.reserved-by-current {
+  background-color: #d97647;
+  cursor: pointer;
+}

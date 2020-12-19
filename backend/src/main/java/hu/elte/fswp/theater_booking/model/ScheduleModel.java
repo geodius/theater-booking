@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,12 @@ public class ScheduleModel {
     public Optional<Schedule> create(Schedule schedule) {
         if (!Schedule.isScheduleValid(schedule)) return Optional.empty();
         if (scheduleRepo.findById(schedule.getId()).isPresent()) return Optional.empty();
+        Optional<Play> dbPlay = PlayModel.getInstance().getById(schedule.getPlay().getId());
+        if (dbPlay.isEmpty()) return Optional.empty();
+        Optional<Room> dbRoom = RoomModel.getInstance().getById(schedule.getRoom().getId());
+        if (dbRoom.isEmpty()) return Optional.empty();
+        schedule.setPlay(dbPlay.get());
+        schedule.setRoom(dbRoom.get());
         scheduleRepo.save(schedule);
         return scheduleRepo.findByStartAndPlayAndRoomOrderByIdDesc(schedule.getStart(), schedule.getPlay(), schedule.getRoom());
     }
@@ -49,15 +56,15 @@ public class ScheduleModel {
         return scheduleRepo.findAllByRoom(room);
     }
 
-    public List<Schedule> getBefore(Time limit) {
+    public List<Schedule> getBefore(LocalDateTime limit) {
         return scheduleRepo.findAllByStartBefore(limit);
     }
 
-    public List<Schedule> getAfter(Time limit) {
+    public List<Schedule> getAfter(LocalDateTime limit) {
         return scheduleRepo.findAllByStartAfter(limit);
     }
 
-    public List<Schedule> getBetween(Time lhs, Time rhs) {
+    public List<Schedule> getBetween(LocalDateTime lhs, LocalDateTime rhs) {
         return scheduleRepo.findAllByStartBetween(lhs, rhs);
     }
 

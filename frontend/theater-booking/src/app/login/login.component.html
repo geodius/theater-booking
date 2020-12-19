@@ -1,0 +1,49 @@
+<section id="login-register">
+  <h1>Belépés</h1>
+  <ng-container [ngSwitch]="loginStatus">
+    <div *ngSwitchCase="0">&nbsp;</div>
+    <div *ngSwitchCase="401">Hibás email cím vagy jelszó!</div>
+    <div *ngSwitchDefault>Szerver hiba</div>
+  </ng-container>
+  <form>
+    <table>
+      <tr>
+        <td><label for="login_email">Email:</label></td>
+        <td><input type="email" name="email" id="login_email" [(ngModel)]="loginEmail" required></td>
+      </tr>
+      <tr>
+        <td><label for="login_password">Jelszó:</label></td>
+        <td><input type="password" name="password" id="login_password" [(ngModel)]="loginPassword" required></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" value="Belépek" (click)="login()" (submit)="$event.preventDefault();"></td>
+      </tr>
+    </table>
+  </form>
+  <h1>Regisztráció</h1>
+  <ng-container [ngSwitch]="registerStatus">
+    <div *ngSwitchCase="0">&nbsp;</div>
+    <div *ngSwitchCase="200">Sikeres regisztráció</div>
+    <div *ngSwitchCase="406">Az adatok nem megfelelőek!</div>
+    <div *ngSwitchDefault>Szerver hiba</div>
+  </ng-container>
+  <form>
+    <table>
+      <tr>
+        <td><label for="register_name">Név:</label></td>
+        <td><input type="text" name="register_name" id="register_name" [(ngModel)]="registerName" required></td>
+      </tr>
+      <tr>
+        <td><label for="register_email">Email:</label></td>
+        <td><input type="email" name="email" id="register_email" [(ngModel)]="registerEmail" required></td>
+      </tr>
+      <tr>
+        <td><label for="register_password">Jelszó:</label></td>
+        <td><input type="password" name="password" id="register_password" [(ngModel)]="registerPassword" required></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="button" value="Regisztrálok" (click)="register()"></td>
+      </tr>
+    </table>
+  </form>
+</section>

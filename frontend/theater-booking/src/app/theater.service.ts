@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
-import DateTimeFormat = Intl.DateTimeFormat;
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {share} from 'rxjs/operators';
 import {Urls} from './Urls';
-import {ParseArgumentException} from '@angular/cli/models/parser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +9,8 @@ import {ParseArgumentException} from '@angular/cli/models/parser';
 export class TheaterService {
   private http: HttpClient;
   private authorizationToken: string;
+  public loggedIn = false;
+  public admin = false;
 
   constructor(http: HttpClient) {
     this.http = http;
@@ -23,47 +22,62 @@ export class TheaterService {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getAllPerson(): Observable<Person[]> {
     return new Observable<Person[]>(observer => {
-      this.startRequest<Person[]>(RequestType.GET, Urls.PERSON_GET_ALL).toPromise().then(ps => {
+      this.startGetRequest<Person[]>(Urls.PERSON_GET_ALL).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Person.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getPersonByEmail(email: string): Observable<Person> {
     return new Observable<Person>(observer => {
-      this.startRequest<Person>(RequestType.GET, Urls.PERSON_GET_BY_EMAIL, email).toPromise().then(p => {
+      this.startGetRequest<Person>(Urls.PERSON_GET_BY_EMAIL, [email]).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getPersonByName(name: string): Observable<Person[]> {
     return new Observable<Person[]>(observer => {
-      this.startRequest<Person[]>(RequestType.GET, Urls.PERSON_GET_BY_NAME, name).toPromise().then(ps => {
+      this.startGetRequest<Person[]>(Urls.PERSON_GET_BY_NAME, [name]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Person.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getCurrentPerson(): Observable<Person> {
     return new Observable<Person>(observer => {
-      this.startRequest<Person>(RequestType.GET, Urls.PERSON_GET_CURRENT).toPromise().then(p => {
+      this.startGetRequest<Person>(Urls.PERSON_GET_CURRENT).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -75,6 +89,9 @@ export class TheaterService {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -85,20 +102,28 @@ export class TheaterService {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public modifyPerson(person: Person): Observable<Person> {
     return new Observable<Person>(observer => {
-      this.startRequest<Person>(RequestType.PATCH, Urls.PERSON_MODIFY, person).toPromise().then(p => {
+      const serializablePerson = person.prepareDirectSerialization();
+      this.startRequest<Person>(RequestType.PATCH, Urls.PERSON_MODIFY, serializablePerson).toPromise().then(p => {
         const parsed = Person.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public deletePerson(person: Person): Observable<boolean> {
-    return this.startRequest<boolean>(RequestType.DELETE, Urls.PERSON_DELETE, person);
+    const serializablePerson = person.prepareDirectSerialization();
+    return this.startRequest<boolean>(RequestType.DELETE, Urls.PERSON_DELETE, serializablePerson);
   }
 
   public createPlay(play: Play): Observable<Play> {
@@ -107,38 +132,51 @@ export class TheaterService {
         const parsed = Play.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getAllPlay(): Observable<Play[]> {
     return new Observable<Play[]>(observer => {
-      this.startRequest<Play[]>(RequestType.GET, Urls.PLAY_GET_ALL).toPromise().then(ps => {
+      this.startGetRequest<Play[]>(Urls.PLAY_GET_ALL).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Play.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getPlayByName(name: string): Observable<Play[]> {
     return new Observable<Play[]>(observer => {
-      this.startRequest<Play[]>(RequestType.GET, Urls.PLAY_GET_BY_NAME, name).toPromise().then(ps => {
+      this.startGetRequest<Play[]>(Urls.PLAY_GET_BY_NAME, [name]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Play.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public modifyPlay(play: Play): Observable<Play> {
+    const serializablePlay = play.prepareDirectSerialization();
     return new Observable<Play>(observer => {
-      this.startRequest<Play>(RequestType.PATCH, Urls.PLAY_MODIFY, play).toPromise().then(p => {
+      this.startRequest<Play>(RequestType.PATCH, Urls.PLAY_MODIFY, serializablePlay).toPromise().then(p => {
         const parsed = Play.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -149,69 +187,88 @@ export class TheaterService {
 
   public createReservation(reservation: Reservation): Observable<Reservation> {
     return new Observable<Reservation>(observer => {
-      this.startRequest<Reservation>(RequestType.PUT, Urls.RESERVATION_CREATE, reservation).toPromise().then(p => {
+      const serializableReservation = reservation.prepareDirectSerialization();
+      this.startRequest<Reservation>(RequestType.PUT, Urls.RESERVATION_CREATE, serializableReservation).toPromise().then(p => {
         const parsed = Reservation.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getAllReservation(): Observable<Reservation[]> {
     return new Observable<Reservation[]>(observer => {
-      this.startRequest<Reservation[]>(RequestType.GET, Urls.RESERVATION_GET_ALL).toPromise().then(ps => {
+      this.startGetRequest<Reservation[]>(Urls.RESERVATION_GET_ALL).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getReservationByPlay(play: Play): Observable<Reservation[]> {
     return new Observable<Reservation[]>(observer => {
-      this.startRequest<Reservation[]>(RequestType.GET, Urls.RESERVATION_GET_BY_PLAY, play).toPromise().then(ps => {
+      this.startGetRequest<Reservation[]>(Urls.RESERVATION_GET_BY_PLAY, [play.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getReservationByRoom(room: Room): Observable<Reservation[]> {
     return new Observable<Reservation[]>(observer => {
-      this.startRequest<Reservation[]>(RequestType.GET, Urls.RESERVATION_GET_BY_ROOM, room).toPromise().then(ps => {
+      this.startGetRequest<Reservation[]>(Urls.RESERVATION_GET_BY_ROOM, [room.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getReservationBySchedule(schedule: Schedule): Observable<Reservation[]> {
     return new Observable<Reservation[]>(observer => {
-      this.startRequest<Reservation[]>(RequestType.GET, Urls.RESERVATION_GET_BY_SCHEDULE, schedule).toPromise().then(ps => {
+      this.startGetRequest<Reservation[]>(Urls.RESERVATION_GET_BY_SCHEDULE, [schedule.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getReservationByPerson(person: Person): Observable<Reservation[]> {
     return new Observable<Reservation[]>(observer => {
-      this.startRequest<Reservation[]>(RequestType.GET, Urls.RESERVATION_GET_BY_PERSON, person).toPromise().then(ps => {
+      this.startGetRequest<Reservation[]>(Urls.RESERVATION_GET_BY_PERSON, [person.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Reservation.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -222,11 +279,15 @@ export class TheaterService {
         const parsed = Reservation.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public deleteReservation(reservation: Reservation): Observable<boolean> {
-    return this.startRequest<boolean>(RequestType.DELETE, Urls.RESERVATION_DELETE, reservation);
+    const serializableReservation = reservation.prepareDirectSerialization();
+    return this.startRequest<boolean>(RequestType.DELETE, Urls.RESERVATION_DELETE, serializableReservation);
   }
 
   public createRoom(room: Room): Observable<Room> {
@@ -235,66 +296,80 @@ export class TheaterService {
         const parsed = Room.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getAllRoom(): Observable<Room[]> {
     return new Observable<Room[]>(observer => {
-      this.startRequest<Room[]>(RequestType.GET, Urls.ROOM_GET_ALL).toPromise().then(ps => {
+      this.startGetRequest<Room[]>(Urls.ROOM_GET_ALL).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
-  public getRoomByName(name: string): Observable<Room[]> {
-    return new Observable<Room[]>(observer => {
-      this.startRequest<Room[]>(RequestType.GET, Urls.ROOM_GET_BY_NAME, name).toPromise().then(ps => {
-        const parsed = [];
-        for (const p of ps) {
-          parsed.push(Room.handleInstancing(p));
-        }
+  public getRoomByName(name: string): Observable<Room> {
+    return new Observable<Room>(observer => {
+      this.startGetRequest<Room>(Urls.ROOM_GET_BY_NAME, [name]).toPromise().then(r => {
+        const parsed = Room.handleInstancing(r);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getRoomByCapacityLessThan(limit: number): Observable<Room[]> {
     return new Observable<Room[]>(observer => {
-      this.startRequest<Room[]>(RequestType.GET, Urls.ROOM_GET_CAPACITY_LESS_THAN, limit).toPromise().then(ps => {
+      this.startGetRequest<Room[]>(Urls.ROOM_GET_CAPACITY_LESS_THAN, [limit]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getRoomByCapacityGreaterThan(limit: number): Observable<Room[]> {
     return new Observable<Room[]>(observer => {
-      this.startRequest<Room[]>(RequestType.GET, Urls.ROOM_GET_CAPACITY_GREATER_THAN, limit).toPromise().then(ps => {
+      this.startGetRequest<Room[]>(Urls.ROOM_GET_CAPACITY_GREATER_THAN, [limit]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public getRoomByCapacityBetween(lower: number, upper: number): Observable<Room[]> {
-    const body = {first: lower, second: upper};
     return new Observable<Room[]>(observer => {
-      this.startRequest<Room[]>(RequestType.GET, Urls.ROOM_GET_CAPACITY_BETWEEN, body).toPromise().then(ps => {
+      this.startGetRequest<Room[]>(Urls.ROOM_GET_CAPACITY_BETWEEN, [lower, upper]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Room.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
@@ -305,6 +380,9 @@ export class TheaterService {
         const parsed = Room.handleInstancing(p);
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
@@ -313,98 +391,136 @@ export class TheaterService {
   }
 
   public createSchedule(schedule: Schedule): Observable<Schedule> {
+    const serializableSchedule = schedule.prepareDirectSerialization();
     return new Observable<Schedule>(observer => {
-      this.startRequest<Schedule>(RequestType.PUT, Urls.SCHEDULE_CREATE, schedule).toPromise().then(p => {
+      this.startRequest<Schedule>(RequestType.PUT, Urls.SCHEDULE_CREATE, serializableSchedule).toPromise().then(p => {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
+      });
+    });
+  }
+  public getScheduleById(id: number): Observable<Schedule> {
+    return new Observable<Schedule>(observer => {
+      this.startGetRequest<Schedule>(Urls.SCHEDULE_GET_BY_ID, [id]).toPromise().then(p => {
+        const parsed = Schedule.handleInstancing(p);
+        observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getAllSchedule(): Observable<Schedule[]> {
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_ALL).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_ALL).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getScheduleByPlay(play: Play): Observable<Schedule[]> {
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_BY_PLAY, play).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_BY_PLAY, [play.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getScheduleByRoom(room: Room): Observable<Schedule[]> {
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_BY_ROOM, room).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_BY_ROOM, [room.id]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getScheduleBefore(limit: Date): Observable<Schedule[]> {
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_BEFORE, limit).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_BEFORE, [limit]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getScheduleAfter(limit: Date): Observable<Schedule[]> {
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_AFTER, limit).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_AFTER, [limit]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public getScheduleBetween(begin: Date, end: Date): Observable<Schedule[]> {
-    const body = {first: begin, second: end};
     return new Observable<Schedule[]>(observer => {
-      this.startRequest<Schedule[]>(RequestType.GET, Urls.SCHEDULE_GET_BETWEEN, body).toPromise().then(ps => {
+      this.startGetRequest<Schedule[]>(Urls.SCHEDULE_GET_BETWEEN, [begin.getTime(), end.getTime()]).toPromise().then(ps => {
         const parsed = [];
         for (const p of ps) {
           parsed.push(Schedule.handleInstancing(p));
         }
         observer.next(parsed);
         observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
+        observer.complete();
       });
     });
   }
   public modifySchedule(schedule: Schedule): Observable<Schedule> {
+    const serializableSchedule = schedule.prepareDirectSerialization();
     return new Observable<Schedule>(observer => {
-      this.startRequest<Schedule>(RequestType.PATCH, Urls.SCHEDULE_MODIFY, schedule).toPromise().then(p => {
+      this.startRequest<Schedule>(RequestType.PATCH, Urls.SCHEDULE_MODIFY, serializableSchedule).toPromise().then(p => {
         const parsed = Schedule.handleInstancing(p);
         observer.next(parsed);
+        observer.complete();
+      }).catch(reason => {
+        observer.error(reason);
         observer.complete();
       });
     });
   }
   public deleteSchedule(schedule: Schedule): Observable<boolean> {
-    return this.startRequest<boolean>(RequestType.DELETE, Urls.SCHEDULE_DELETE, schedule);
+    const serializableSchedule = schedule.prepareDirectSerialization();
+    return this.startRequest<boolean>(RequestType.DELETE, Urls.SCHEDULE_DELETE, serializableSchedule);
   }
 
   private getRequestHeader(): any {
@@ -414,23 +530,80 @@ export class TheaterService {
       return {'Content-Type': 'application/json;charset=UTF-8'};
     }
   }
+  private startGetRequest<T>(url: string, params?: Array<any>): Observable<T> {
+    let urlParamString = '';
+    if (params !== undefined) {
+      for (const param of params) {
+        if (typeof (param) === 'string') {
+          urlParamString += '/' + btoa(param);
+        } else {
+          urlParamString += '/' + param;
+        }
+      }
+    }
+    return this.http.get<T>(url + urlParamString, {headers: this.getRequestHeader()});
+  }
   private startRequest<T>(reqType: RequestType, url: string, body?: any): Observable<T> {
     let reqTypeStr = '';
     switch (reqType) {
       case RequestType.PUT: reqTypeStr = 'PUT'; break;
-      case RequestType.GET: reqTypeStr = 'GET'; break;
       case RequestType.POST: reqTypeStr = 'POST'; break;
       case RequestType.PATCH: reqTypeStr = 'PATCH'; break;
       case RequestType.DELETE: reqTypeStr = 'DELETE'; break;
     }
     const result = this.http.request<T>(reqTypeStr, url, {body, headers: this.getRequestHeader()});
-    result.subscribe(_ => {}, error => console.error(error));
+    // result.subscribe(_ => {}, error => console.error(error));
     return result;
   }
 
   public login(email: string, password: string): Observable<Person> {
     this.authorizationToken = btoa(email + ':' + password);
-    return this.getCurrentPerson();
+    const result = this.getCurrentPerson();
+    this.getCurrentPerson().subscribe(next => {
+      this.loggedIn = true;
+      // @ts-ignore
+      this.admin = next.roles.find(r => r.roleType === RoleType[RoleType.ADMIN]) !== undefined;
+      console.log('admin: ' + this.admin);
+      console.log(next.roles);
+      console.log(RoleType.ADMIN + ' ' + RoleType[RoleType.ADMIN]);
+    });
+    return result;
+  }
+
+  public register(name: string, email: string, password: string): Observable<Person> {
+    const person = new Person(undefined);
+    person.name = name;
+    person.email = email;
+    person.password = password;
+    return this.createPerson(person);
+  }
+
+  public replaceAccentedCharacters(str: string): string {
+    const accentedChars =    ['Á', 'Í', 'Ű', 'Ő', 'Ü', 'Ö', 'Ú', 'Ó', 'É', 'á', 'í', 'ű', 'ő', 'ü', 'ö', 'ú', 'ó', 'é'];
+    const replacementChars = ['A', 'I', 'U', 'O', 'U', 'O', 'U', 'O', 'E', 'a', 'i', 'u', 'o', 'u', 'o', 'u', 'o', 'e'];
+    let result = '';
+    for (const c of str) {
+      let i = 0;
+      while (i < accentedChars.length && accentedChars[i] !== c) { ++i; }
+      result += (i < accentedChars.length) ? replacementChars[i] : c;
+    }
+    return result;
+  }
+
+  public getRoomLayout(room: Room): Observable<Seat[]> {
+    // The linter thinks replaceAll is not a function of string, but it is :/
+    // @ts-ignore
+    const roomLayoutName = this.replaceAccentedCharacters(room.name.replaceAll(' ', '_')).toLowerCase();
+    return new Observable<Seat[]>(observer => {
+      this.http.get<Seat[]>(Urls.ROOM_LAYOUT_CONTAINER + '/' + roomLayoutName + '.json').toPromise()
+        .then(ss => {
+          const seats = [];
+          ss.forEach(s => seats.push(new Seat(s)));
+          observer.next(seats);
+        })
+        .catch(reason => observer.error(reason))
+        .finally(() => observer.complete());
+    });
   }
 }
 export class Person {
@@ -438,7 +611,7 @@ export class Person {
     if (source === undefined) { return; }
     this.copyPrimitiveData(source);
     for (const r of source.reservations) {
-      this.reservations.push(Reservation.handleInstancing(source.reservations));
+      this.reservations.push(Reservation.handleInstancing(r));
     }
     for (const r of source.roles) {
       this.roles.push(Role.handleInstancing(r));
@@ -473,6 +646,26 @@ export class Person {
     this.reservations = source.reservations;
     this.roles = source.roles;
   }
+
+  public prepareDirectSerialization(): Person {
+    const serializable = new Person(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const role of this.roles) {
+      serializable.roles.push(role.prepareSerialization());
+    }
+    for (const reservation of this.reservations) {
+      serializable.reservations.push(reservation.prepareSerialization());
+    }
+    return serializable;
+  }
+
+  public prepareSerialization(): Person {
+    const serializable = new Person(undefined);
+    serializable.copyPrimitiveData(this);
+    serializable.roles = null;
+    serializable.reservations = null;
+    return serializable;
+  }
 }
 export class Play {
   constructor(source: any) {
@@ -497,6 +690,21 @@ export class Play {
     p.copyPrimitiveData(parsed);
     p.copyReferences(parsed);
     return p;
+  }
+
+  public prepareDirectSerialization(): Play {
+    const serializable = new Play(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const schedule of this.schedules) {
+      serializable.schedules.push(schedule.prepareSerialization());
+    }
+    return serializable;
+  }
+
+  public prepareSerialization(): Play {
+    const serializable = new Play(undefined);
+    serializable.copyPrimitiveData(this);
+    return serializable;
   }
 
   private copyPrimitiveData(source: any): void {
@@ -542,6 +750,19 @@ export class Reservation {
     this.person = source.person;
     this.schedule = source.schedule;
   }
+  public prepareDirectSerialization(): Reservation {
+    const serializable = this.prepareSerialization();
+    serializable.person = this.person.prepareSerialization();
+    serializable.schedule = this.schedule.prepareSerialization();
+    return serializable;
+  }
+  public prepareSerialization(): Reservation {
+    const serializable = new Reservation(undefined);
+    serializable.copyPrimitiveData(this);
+    serializable.person = null;
+    serializable.schedule = null;
+    return serializable;
+  }
 }
 export class Role {
   constructor(source: any) {
@@ -563,6 +784,13 @@ export class Role {
     r.copyPrimitiveData(parsed);
     r.copyReferences(parsed);
     return r;
+  }
+
+  public prepareSerialization(): Role {
+    const serializable = new Role(undefined);
+    serializable.copyPrimitiveData(this);
+    serializable.people = null;
+    return serializable;
   }
 
   private copyPrimitiveData(source: any): void {
@@ -599,6 +827,12 @@ export class Room {
     return r;
   }
 
+  public prepareSerialization(): Room {
+    const serializable = new Room(undefined);
+    serializable.copyPrimitiveData(this);
+    return serializable;
+  }
+
   private copyPrimitiveData(source: any): void {
     this.id = source.id;
     this.name = source.name;
@@ -622,6 +856,7 @@ export class Schedule {
   public static instances: Map<number, Schedule> = new Map<number, Schedule>();
   public id: number;
   public start: Date;
+  public startStr: string;
   public reservations: Reservation[] = [];
   public room: Room;
   public play: Play;
@@ -638,11 +873,57 @@ export class Schedule {
   private copyPrimitiveData(source: any): void {
     this.id = source.id;
     this.start = new Date(source.start);
+    this.startStr = this.start.getFullYear() + '-' +
+                    (this.start.getMonth() + 1).toString().padStart(2, '0') + '-' +
+                    this.start.getDate().toString().padStart(2, '0') + 'T' +
+                    this.start.getHours().toString().padStart(2, '0') + ':' +
+                    (this.start.getMinutes() + 1).toString().padStart(2, '0');
   }
   private copyReferences(source: any): void {
     this.reservations = source.reservations;
     this.room = source.room;
     this.play = source.play;
   }
+
+  public prepareDirectSerialization(): Schedule {
+    const serializable = new Schedule(undefined);
+    serializable.copyPrimitiveData(this);
+    for (const reservation of this.reservations) {
+      serializable.reservations.push(reservation.prepareSerialization());
+    }
+    serializable.room = this.room.prepareSerialization();
+    serializable.play = this.play.prepareSerialization();
+    return serializable;
+  }
+
+  public prepareSerialization(): Schedule {
+    const serializable = new Schedule(undefined);
+    serializable.copyPrimitiveData(this);
+    serializable.reservations = null;
+    serializable.room = null;
+    serializable.play = null;
+    return serializable;
+  }
 }
 export enum RequestType {PUT, GET, POST, PATCH, DELETE}
+export class Seat {
+  constructor(source: any) {
+    this.x = source.x;
+    this.y = source.y;
+    this.width = source.width;
+    this.height = source.height;
+    this.rotation = source.rotation;
+    this.seat = source.seat;
+    this.reserved = false;
+    this.reservedByCurrentPerson = false;
+  }
+
+  public x: number;
+  public y: number;
+  public width: number;
+  public height: number;
+  public rotation: number;
+  public seat: number;
+  public reserved: boolean;
+  public reservedByCurrentPerson: boolean;
+}

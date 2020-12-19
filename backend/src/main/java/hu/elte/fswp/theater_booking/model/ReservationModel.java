@@ -78,7 +78,7 @@ public class ReservationModel {
         Optional<Reservation> temp = reservationRepo.findById(reservation.getId());
         if (temp.isEmpty()) return false;
         Reservation dbReservation = temp.get();
-        if (!dbReservation.getPerson().equals(reservation.getPerson())) return false;
+        if (!dbReservation.getPerson().isSameAs(reservation.getPerson())) return false;
         reservationRepo.delete(reservation);
         return true;
     }

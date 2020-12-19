@@ -1,0 +1,25 @@
+<section class="overlay" [class.overlay-show]="true">
+  <i class="fas fa-window-close" (click)="closeOverlay()"></i>
+  <section class="room"
+           [style.width.px]="getRoomLayoutWidth()"
+           [style.margin-left.px]="-getRoomLayoutWidth()/2"
+           [style.margin-top.px]="-getTopOffset()">
+    <ng-container *ngFor="let seat of roomLayout">
+      <div
+            [ngStyle]="{
+              'top.px': seat.y,
+              'left.px': seat.x,
+              'width.px': seat.width,
+              'height.px': seat.height,
+              'transform': 'rotate(' + seat.rotation + 'deg)',
+              'line-height.px': 22
+            }"
+            [class.reserved]="seat.reserved"
+            [class.reserved-by-current]="seat.reservedByCurrentPerson"
+      (click)="reserveSeat(seat)">
+           <!-- style="top: {{seat.x}}; left: {{seat.y}}; width: {{seat.width}}; height: {{seat.height}}">-->
+          {{seat.seat}}
+      </div>
+    </ng-container>
+  </section>
+</section>

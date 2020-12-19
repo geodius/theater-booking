@@ -25,12 +25,4 @@ public class TheaterBookingUserDetailsService implements UserDetailsService {
     public static Person getCurrentUser() {
         return ((UserWrapper) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getPerson();
     }
-    public static boolean isCurrentUserAdmin() {
-        return ((UserWrapper) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-                .getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.ADMIN.name()));
-    }
-    public static boolean isCurrentUserResident() {
-        return ((UserWrapper) SecurityContextHolder.getContext().getAuthentication().getPrincipal())
-                .getAuthorities().stream().anyMatch(a -> a.getAuthority().equals(RoleType.USER.name()));
-    }
 }
