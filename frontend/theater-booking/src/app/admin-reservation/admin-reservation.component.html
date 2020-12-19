@@ -1,0 +1,25 @@
+<div>
+  <form>
+    <label for="newReservationPerson">Email:</label>
+    <select id="newReservationPerson" (change)="canSelectSeat = $event.target.value != -1; overlayPerson = getPersonById($event.target.value)">
+      <option value="-1">-</option>
+      <option *ngFor="let person of people" [value]="person.id">{{person.email}}</option>
+    </select>
+    <label for="newReservationSchedule">Műsor:</label>
+    <select id="newReservationSchedule" (change)="canSelectSeat = $event.target.value != -1; overlaySchedule = getScheduleById($event.target.value)">
+      <option value="-1">-</option>
+      <option *ngFor="let schedule of schedules" [value]="schedule.id">
+        {{schedule.play.name}} - {{schedule.room.name}} - {{schedule.startStr}}
+      </option>
+    </select>
+    <input type="submit" value="Hozzáad" (click)="showTicketOverlay = true" [disabled]="!canSelectSeat && overlaySchedule !== null && overlayPerson !== null" (submit)="$event.preventDefault()">
+  </form>
+  <table>
+    <tr *ngFor="let reservation of reservations">
+      <td>{{reservation.person.email}}</td>
+      <td>{{reservation.schedule.play.name}} - {{reservation.schedule.room.name}} - {{reservation.schedule.startStr}}</td>
+      <td><button (click)="deleteReservation(reservation)"><i class="fas fa-times-circle"></i></button></td>
+    </tr>
+  </table>
+</div>
+<app-ticket-reservation-overlay *ngIf="showTicketOverlay" [person]="overlayPerson" [schedule]="overlaySchedule" (reservationAdded)="reservationAdded = true" (closeWindow)="showTicketOverlay = false; this.reloadData()"></app-ticket-reservation-overlay>

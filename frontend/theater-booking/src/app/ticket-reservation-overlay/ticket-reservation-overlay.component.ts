@@ -1,5 +1,5 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Reservation, Room, Schedule, Seat, TheaterService} from '../theater.service';
+import {Person, Reservation, Room, Schedule, Seat, TheaterService} from '../theater.service';
 
 @Component({
   selector: 'app-ticket-reservation-overlay',
@@ -8,7 +8,10 @@ import {Reservation, Room, Schedule, Seat, TheaterService} from '../theater.serv
 })
 export class TicketReservationOverlayComponent implements OnInit {
   @Input() schedule: Schedule;
+  @Input() person: Person;
   @Output() closeWindow: EventEmitter<void> = new EventEmitter<void>();
+  @Output() reservationAdded: EventEmitter<void> = new EventEmitter<void>();
+
   private theaterService: TheaterService;
   private changeDetectorRef: ChangeDetectorRef;
   public roomLayout: Seat[];
@@ -19,8 +22,9 @@ export class TicketReservationOverlayComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.loadRoomLayout(this.schedule.room);
+    if (this.person === undefined) { this.person = await this.theaterService.getCurrentPerson().toPromise(); }
   }
 
   private softReload(): void {
@@ -34,24 +38,14 @@ export class TicketReservationOverlayComponent implements OnInit {
   }
 
   loadRoomLayout(room: Room): void {
-    this.theaterService.getRoomLayout(room).subscribe(
-      next => {
-        this.prepareLayout(next).then(
-          nextLayout => {
-            this.roomLayout = nextLayout;
-            this.changeDetectorRef.detectChanges();
-          }
-        );
-      },
-      error => console.error(error));
+    this.theaterService.getRoomLayout(room).subscribe(next => this.roomLayout = this.prepareLayout(next), error => console.error(error));
   }
 
-  async prepareLayout(seats: Seat[]): Promise<Seat[]> {
-    const currentPerson = await this.theaterService.getCurrentPerson().toPromise();
+  prepareLayout(seats: Seat[]): Seat[] {
     for (const res of this.schedule.reservations) {
       const seat = seats.find(s => s.seat === res.seat);
       seat.reserved = true;
-      seat.reservedByCurrentPerson = res.person.id === currentPerson.id;
+      seat.reservedByCurrentPerson = res.person.id === this.person.id;
     }
     return seats;
   }
@@ -77,10 +71,10 @@ export class TicketReservationOverlayComponent implements OnInit {
     return topOffset;
   }
 
-  async handleSeatAlreadyReserved(seat: Seat): Promise<void> {
+  handleSeatAlreadyReserved(seat: Seat): void {
     const reservation = this.schedule.reservations.find(r => r.seat === seat.seat);
-    const currentPerson = await this.theaterService.getCurrentPerson().toPromise();
-    if (reservation.person.id === currentPerson.id) {
+
+    if (reservation.person.id === this.person.id) {
       const deleteReservation = confirm('Szeretnéd lemondani a foglalást erről a székről: ' + seat.seat);
       if (deleteReservation) {
         this.theaterService.deleteReservation(reservation).subscribe(
@@ -94,15 +88,14 @@ export class TicketReservationOverlayComponent implements OnInit {
     }
   }
 
-  async reserveSeat(seat: Seat): Promise<void> {
+  reserveSeat(seat: Seat): void {
     if (seat.reserved) {
-      await this.handleSeatAlreadyReserved(seat);
+      this.handleSeatAlreadyReserved(seat);
       return;
     }
-    const currentPerson = await this.theaterService.getCurrentPerson().toPromise();
 
     const reservation = new Reservation(undefined);
-    reservation.person = currentPerson;
+    reservation.person = this.person;
     reservation.seat = seat.seat;
     reservation.schedule = this.schedule;
 
@@ -110,6 +103,7 @@ export class TicketReservationOverlayComponent implements OnInit {
       next =>  {
               this.softReload();
               alert('Sikeres foglalás!');
+              this.reservationAdded.emit();
             },
       error => console.log(error)
     );
