@@ -19,7 +19,7 @@ import { AdminMainComponent } from './admin-main/admin-main.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AdminPlaysComponent } from './admin-plays/admin-plays.component';
 import { AdminScheduleComponent } from './admin-schedule/admin-schedule.component';
-import { AdminTicketsComponent } from './admin-tickets/admin-tickets.component';
+import { AdminReservationComponent } from './admin-reservation/admin-reservation.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,7 @@ import { AdminTicketsComponent } from './admin-tickets/admin-tickets.component';
     AdminUsersComponent,
     AdminPlaysComponent,
     AdminScheduleComponent,
-    AdminTicketsComponent
+    AdminReservationComponent
   ],
   imports: [
     BrowserModule,
