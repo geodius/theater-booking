@@ -76,20 +76,20 @@ Frontend
 			- rooms: termek rajzai képformátumban
 		- environments: környezetek osztályai Angularhoz
 		
-##Kliensoldali szolgáltatások
+## Kliensoldali szolgáltatások
 - **Műsor listázása:** naponként kilistázza a játszott előadásokat.
 - **Előadások listázása:** az összes előadást kilistázza, valamint megadja, hogy mikor játsszák (ha játsszák).
 - **Jegyár listázása:** az összes jelenleg vásárolható jegyfajta árait listázza ki.
 - **Jegyfoglalás:** egy adott műsorponthoz foglalhat a felhasználó jegyet.
 - **Foglalás törlése:** a felhasználó a foglalását törölheti is.
 
-##Kapcsolat a szerverrel
+## Kapcsolat a szerverrel
 ![com](https://github.com/geodius/theater-booking/blob/main/com.png)
 
-##Helyfoglalás menetének részletes leírása
+## Helyfoglalás menetének részletes leírása
 ![asd](https://github.com/geodius/theater-booking/blob/main/asd.png)
 
-##Felhasználói dokumentáció
+## Felhasználói dokumentáció
 
 **Használat**
 
